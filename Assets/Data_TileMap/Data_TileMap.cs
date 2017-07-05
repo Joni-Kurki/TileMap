@@ -51,6 +51,11 @@ public class Data_TileMap {
 	List<Data_Room> rooms;
 	/*
 	 * 0 = unknown
+	 * 1 = fog
+	 * 2 = floor
+	 * 3 = wall
+	 * -------
+	 * 0 = unknown
 	 * 1 = water
 	 * 2 = grass
 	 * 3 = sand

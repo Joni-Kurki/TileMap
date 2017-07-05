@@ -13,7 +13,7 @@ public class G_TileMap : MonoBehaviour {
 	public float tileSize = 1.0f;
 
 	public Texture2D mapTileGraphics; // tähän spritet
-	public int tileResolution; // esim 8x8px tile -> 8px
+	public int tileResolution; // esim 16x16px tile -> 16px
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +28,8 @@ public class G_TileMap : MonoBehaviour {
 	Color [][] ChopUpTiles(){
 		int numberOfTilesPerRow = mapTileGraphics.width / tileResolution;
 		int numberOfRowsInTexture = mapTileGraphics.height / tileResolution;
+
+		Debug.Log ("text x " + numberOfTilesPerRow + " text y" + numberOfRowsInTexture);
 
 		Color[][] tiles = new Color[numberOfTilesPerRow * numberOfRowsInTexture][];
 
