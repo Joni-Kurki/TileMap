@@ -29,8 +29,6 @@ public class G_TileMap : MonoBehaviour {
 		int numberOfTilesPerRow = mapTileGraphics.width / tileResolution;
 		int numberOfRowsInTexture = mapTileGraphics.height / tileResolution;
 
-		Debug.Log ("text x " + numberOfTilesPerRow + " text y" + numberOfRowsInTexture);
-
 		Color[][] tiles = new Color[numberOfTilesPerRow * numberOfRowsInTexture][];
 
 		for (int y = 0; y < numberOfRowsInTexture; y++) {

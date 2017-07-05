@@ -74,7 +74,7 @@ public class Data_TileMap {
 
 		rooms = new List<Data_Room> ();
         Data_Room dr;
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 2; i++) {
             int r_size_x = Random.Range(6, 9);
             int r_size_y = Random.Range(6, 8);
             dr = new Data_Room(Random.Range (0, tilemap_size_x - r_size_x), Random.Range (0, tilemap_size_y - r_size_y), r_size_x, r_size_y);
@@ -92,6 +92,16 @@ public class Data_TileMap {
             }
         }
         MakeWalls();
+		if (rooms.Count > 1) {
+			for (int i = 1; i < rooms.Count; i++) {
+				if (isConnectedToOtherRoom (rooms [0], rooms [i])) {
+					Debug.Log ("Can connect to:" + i);
+				} else {
+					Debug.Log ("Cannot connect to all! "+i);
+					break;
+				}
+			}
+		}
         //MakePond(5, 5, 100, 10);
 	}
 	// palauttaa tilenarvon kohdasta x,y
@@ -165,6 +175,71 @@ public class Data_TileMap {
         return false;
     }
 
+	bool isConnectedToOtherRoom(Data_Room r1, Data_Room r2){
+		int x = r1.center_x ();
+		int y = r1.center_y();
+
+		bool xDone = false;
+		bool yDone = false;
+
+		for (int i = 0; i < tilemap_size_x; i++) {
+			if (x < r2.center_x () && xDone == false) {
+				//Debug.Log ("huone 1, vasemmalla");
+				if (HasAdjecentFloor (x + 1, y)) {
+					tilemap_data [x+1, y] = 0;
+					x++;
+				} else {
+					Debug.Log ("Found wall, stopping");
+					xDone = true;
+				}
+			}if(x > r2.center_x () && xDone == false){
+				Debug.Log ("huone 2, vasemmalla");
+				if (HasAdjecentFloor (x - 1, y)) {
+					tilemap_data [x-1, y] = 0;
+					x--;
+				}else {
+					Debug.Log ("Found wall, stopping");
+					xDone = true;
+				}
+			}else if(x == r2.center_x() && xDone == false){
+				Debug.Log ("Sama x "+x+" = "+r2.center_x());
+				xDone = true;
+			}
+		}
+		for (int j = 0; j < tilemap_size_y; j++) {
+			if (y < r2.center_y () && yDone == false) {
+				//Debug.Log ("huone 1, vasemmalla");
+				if (HasAdjecentFloor (x, y+1)) {
+					tilemap_data [x, y+1] = 0;
+					y++;
+				}else {
+					Debug.Log ("Found wall, stopping");
+					yDone = true;
+				}
+			}if(y > r2.center_y () && yDone == false){
+				Debug.Log ("huone 2, vasemmalla");
+				if (HasAdjecentFloor (x, y - 1)) {
+					tilemap_data [x, y-1] = 0;
+					y--;
+				}else {
+					Debug.Log ("Found wall, stopping");
+					yDone = true;
+				}
+			}else if(y == r2.center_y() && yDone == false){
+				Debug.Log ("Sama y "+y+" = "+r2.center_y());
+				yDone = true;
+			}
+		}
+		if (tilemap_data [r2.center_x (), r2.center_y ()] == 0) {
+			Debug.Log ("0 > true");
+			return true;
+		} else {
+			Debug.Log ("muut > false");
+			return false;
+		}
+	}
+
+	/*
     void MakePond(int start_x, int start_y, int spread_p, int size){
         int pondLeft = size;
         int tries = 0;
@@ -201,5 +276,5 @@ public class Data_TileMap {
                 return new Vector2(0,0);
         }
     }
-
+	*/
 }
