@@ -74,7 +74,7 @@ public class Data_TileMap{
 
 		rooms = new List<Data_Room> ();
         Data_Room dr;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
             int r_size_x = Random.Range(6, 9);
             int r_size_y = Random.Range(6, 8);
             dr = new Data_Room(Random.Range (0, tilemap_size_x - r_size_x), Random.Range (0, tilemap_size_y - r_size_y), r_size_x, r_size_y);
@@ -91,7 +91,16 @@ public class Data_TileMap{
                 MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
             }
         }
-        MakeWalls();/*
+        MakeWalls();
+		//Debug.Log("Floortiles: "+GetNumberOfFloorTiles ());
+		//Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
+
+		if (GetNumberOfFloorTiles () == GetNumberOfConnectedFloorTiles ()) {
+			Debug.Log ("Sama! Tämä käy");
+		} else {
+			Debug.Log ("Arvo uudestaan!");
+		}
+		/*
 		if (rooms.Count > 1) {
 			for (int i = 1; i < rooms.Count; i++) {
 				if (isConnectedToOtherRoom (rooms [0], rooms [i])) {
@@ -134,14 +143,27 @@ public class Data_TileMap{
     void MakeCorridor(Data_Room r1, Data_Room r2){
         int x = r1.center_x();
         int y = r1.center_y();
-        while (x != r2.center_x()){
-            tilemap_data[x, y] = 1;
-            x += x < r2.center_x() ? 1 : -1;
-        }
-        while (y != r2.center_y()) {
-            tilemap_data[x, y] = 1;
-            y += y < r2.center_y() ? 1 : -1;
-        }
+		int temp =  Random.Range(0, 2);
+		//Debug.Log ("Random " + temp);
+		if (temp == 0) {
+			while (x != r2.center_x ()) {
+				tilemap_data [x, y] = 1;
+				x += x < r2.center_x () ? 1 : -1;
+			}
+			while (y != r2.center_y ()) {
+				tilemap_data [x, y] = 1;
+				y += y < r2.center_y () ? 1 : -1;
+			}
+		} else {
+			while (y != r2.center_y ()) {
+				tilemap_data [x, y] = 1;
+				y += y < r2.center_y () ? 1 : -1;
+			}
+			while (x != r2.center_x ()) {
+				tilemap_data [x, y] = 1;
+				x += x < r2.center_x () ? 1 : -1;
+			}
+		}
         r1.isConnected = true;
         r2.isConnected = true;
     }
@@ -177,6 +199,85 @@ public class Data_TileMap{
 
         return false;
     }
+
+	int GetNumberOfFloorTiles(){
+		int floorCounter = 0;
+		for (int x = 0; x < tilemap_size_x; x++) {
+			for (int y = 0; y < tilemap_size_y; y++) {
+				if (tilemap_data [x, y] == 1)
+					floorCounter++;
+			}
+		}
+		return floorCounter;
+	}
+
+	int GetNumberOfConnectedFloorTiles(){
+		Vector2 startLocation = new Vector2 (0, 0);
+		for (int x = 0; x < tilemap_size_x; x++) {
+			for (int y = 0; y < tilemap_size_y; y++) {
+				if (tilemap_data [x, y] == 1) {
+					startLocation = new Vector2 (x, y);
+				}
+			}
+		}
+		Debug.Log (startLocation.x+"|"+startLocation.y);
+		List<Vector2> startPointInAList = new List<Vector2>();
+		startPointInAList.Add (startLocation);
+		int temp = RecuTest (startPointInAList,1);
+		//Debug.Log (temp);
+		return temp;
+	}
+
+	int RecuTest(List<Vector2> newTiles, int iterations){
+		if (iterations > 1) {
+			Debug.Log (">10 breaking");
+			return -1;
+		}
+		if (newTiles.Count == 0) {
+			Debug.Log ("0 > returning");
+			return -1;
+		} else {
+			for (int i = 0; i < newTiles.Count; i++) {
+				/*
+				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y+1] == 1){
+					Debug.Log ("-1|+1");
+					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y+1));
+					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y + 1] = 0;
+				}*/
+				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y] == 1){
+					//Debug.Log ("-1|0");
+					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y));
+					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y] = 0;
+				}/*
+				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y-1] == 1){
+					Debug.Log ("-1|-1");
+					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y-1));
+					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y-1] = 0;
+				}*/
+				if(tilemap_data[(int)newTiles[i].x+1, (int)newTiles[i].y] == 1){
+					//Debug.Log ("+1|0");
+					newTiles.Add (new Vector2 (newTiles[i].x+1, newTiles[i].y));
+					tilemap_data [(int)newTiles [i].x + 1, (int)newTiles [i].y] = 0;
+				}
+				if(tilemap_data[(int)newTiles[i].x, (int)newTiles[i].y-1] == 1){
+					//Debug.Log ("0|-1");
+					newTiles.Add (new Vector2 (newTiles[i].x, newTiles[i].y-1));
+					tilemap_data [(int)newTiles [i].x, (int)newTiles [i].y-1] = 0;
+				}
+				if(tilemap_data[(int)newTiles[i].x, (int)newTiles[i].y+1] == 1){
+					//Debug.Log ("0|+1");
+					newTiles.Add (new Vector2 (newTiles[i].x, newTiles[i].y+1));
+					tilemap_data [(int)newTiles [i].x, (int)newTiles [i].y+1] = 0;
+				}
+			}
+			//Debug.Log (iterations+" > continue");
+			iterations += 1;
+			RecuTest (newTiles, iterations);
+			//return;
+		}
+		//Debug.Log ("List length:"+ (newTiles.Count-1));
+		return (newTiles.Count - 1);
+	}
 
 	bool isConnectedToOtherRoom(Data_Room r1, Data_Room r2){
 		int x = r1.center_x ();
@@ -241,43 +342,4 @@ public class Data_TileMap{
 			return false;
 		}
 	}
-
-	/*
-    void MakePond(int start_x, int start_y, int spread_p, int size){
-        int pondLeft = size;
-        int tries = 0;
-        if (start_x >= 0 && start_y >= 0 && start_x <= tilemap_size_x-1 && start_y <= tilemap_size_y-1){
-            tilemap_data[start_x, start_y] = 1;
-            while (pondLeft > 0){
-                Vector2 temp = GetRandomAdjecentTile(start_x, start_y);
-                if (temp.x >= 0 && temp.y >= 0 && GetTileAt((int)temp.x, (int)temp.y) != 1){
-                    tilemap_data[(int)temp.x, (int)temp.y] = 1;
-                    pondLeft--;
-                    tries = 0;
-                }
-                if (tries > 4){
-                    Debug.Log("Tried " + tries);
-
-                    break;
-                }
-                tries++;
-            }
-        }
-    }
-    Vector2 GetRandomAdjecentTile(int start_x, int start_y){
-        int r = Random.Range(0, 4);
-        switch (r){
-            case 0:
-                return new Vector2(start_x - 1, start_y);
-            case 1:
-                return new Vector2(start_x, start_y-1);
-            case 2:
-                return new Vector2(start_x + 1, start_y);
-            case 3:
-                return new Vector2(start_x, start_y+1);
-            default:
-                return new Vector2(0,0);
-        }
-    }
-	*/
 }

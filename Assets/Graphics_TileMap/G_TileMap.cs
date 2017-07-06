@@ -53,7 +53,7 @@ public class G_TileMap : MonoBehaviour {
 
 		for (int y = 0; y < size_y; y++) {
 			for (int x = 0; x < size_x; x++) {
-				Color[] c = tiles [dTileMap.GetTileAt(x,y)/*Random.Range(0,4)*/];
+				Color[] c = tiles [dTileMap.GetTileAt(x,y)];
 				texture.SetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution, c);
 			}
 		}
