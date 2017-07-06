@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Data_TileMap {
-
-	protected class Data_Room {
+public class Data_TileMap{
+	public class Data_Room {
 		public int left;
 		public int top;
 		public int width;
@@ -48,7 +48,7 @@ public class Data_TileMap {
 
 	int [,] tilemap_data;
 
-	List<Data_Room> rooms;
+	public List<Data_Room> rooms;
 	/*
 	 * 0 = unknown
 	 * 1 = fog
@@ -74,7 +74,7 @@ public class Data_TileMap {
 
 		rooms = new List<Data_Room> ();
         Data_Room dr;
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
             int r_size_x = Random.Range(6, 9);
             int r_size_y = Random.Range(6, 8);
             dr = new Data_Room(Random.Range (0, tilemap_size_x - r_size_x), Random.Range (0, tilemap_size_y - r_size_y), r_size_x, r_size_y);
@@ -91,7 +91,7 @@ public class Data_TileMap {
                 MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
             }
         }
-        MakeWalls();
+        MakeWalls();/*
 		if (rooms.Count > 1) {
 			for (int i = 1; i < rooms.Count; i++) {
 				if (isConnectedToOtherRoom (rooms [0], rooms [i])) {
@@ -101,9 +101,12 @@ public class Data_TileMap {
 					break;
 				}
 			}
-		}
-        //MakePond(5, 5, 100, 10);
+		}*/
 	}
+	public Vector3 GetStartingRoomPosition(){
+		return new Vector3 (rooms [0].center_x (),0, rooms [0].center_y ());
+	}
+
 	// palauttaa tilenarvon kohdasta x,y
 	public int GetTileAt(int x, int y){
 		return tilemap_data [x, y];

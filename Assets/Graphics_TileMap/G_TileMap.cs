@@ -15,6 +15,8 @@ public class G_TileMap : MonoBehaviour {
 	public Texture2D mapTileGraphics; // tähän spritet
 	public int tileResolution; // esim 16x16px tile -> 16px
 
+	Data_TileMap dTileMap;
+
 	// Use this for initialization
 	void Start () {
 		BuildMesh ();
@@ -22,7 +24,7 @@ public class G_TileMap : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	Color [][] ChopUpTiles(){
@@ -41,7 +43,7 @@ public class G_TileMap : MonoBehaviour {
 	}
 
 	void BuildTexture(){
-		Data_TileMap dTileMap =  new Data_TileMap (size_x, size_y);
+		dTileMap =  new Data_TileMap (size_x, size_y);
 
 		int textureWidth = size_x * tileResolution;
 		int textureHeigth = size_y * tileResolution;
@@ -64,6 +66,13 @@ public class G_TileMap : MonoBehaviour {
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
 
 		Debug.Log("Textures done!");
+	}
+	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
+	public Vector3 GetStartingLocation(){
+		return dTileMap.GetStartingRoomPosition ();
+	}
+	public int GetTileAt(int x, int y){
+		return dTileMap.GetTileAt (x, y);
 	}
 
 	public void BuildMesh(){
