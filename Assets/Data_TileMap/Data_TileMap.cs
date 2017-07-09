@@ -65,53 +65,57 @@ public class Data_TileMap{
 		this.tilemap_size_y = tilemap_size_y;
 
 		tilemap_data = new int[tilemap_size_x, tilemap_size_y];
-
-		for (int x = 0; x < tilemap_size_x; x++) {
-			for (int y = 0; y < tilemap_size_y; y++) {
-				tilemap_data [x, y] = 3; // tähän tyhjä tile
-			}
-		}
-
-		rooms = new List<Data_Room> ();
-        Data_Room dr;
-		for (int i = 0; i < 10; i++) {
-            int r_size_x = Random.Range(6, 9);
-            int r_size_y = Random.Range(6, 8);
-            dr = new Data_Room(Random.Range (0, tilemap_size_x - r_size_x), Random.Range (0, tilemap_size_y - r_size_y), r_size_x, r_size_y);
-
-            if (!RoomCollides(dr)){
-                rooms.Add(dr);
-                MakeBonds(dr.left, dr.top, dr.width, dr.height);
+        for (int ite = 0; ite < 10; ite++){
+            for (int x = 0; x < tilemap_size_x; x++){
+                for (int y = 0; y < tilemap_size_y; y++){
+                    tilemap_data[x, y] = 3; // tähän tyhjä tile
+                }
             }
-		}
 
-        for (int i = 0; i < rooms.Count; i++){
-            if (!rooms[i].isConnected){
-                int j = Random.Range(1, rooms.Count);
-                MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
+            rooms = new List<Data_Room>();
+            Data_Room dr;
+            for (int i = 0; i < 100; i++){
+                int r_size_x = Random.Range(6, 9);
+                int r_size_y = Random.Range(6, 8);
+                dr = new Data_Room(Random.Range(0, tilemap_size_x - r_size_x), Random.Range(0, tilemap_size_y - r_size_y), r_size_x, r_size_y);
+
+                if (!RoomCollides(dr)){
+                    rooms.Add(dr);
+                    MakeBonds(dr.left, dr.top, dr.width, dr.height);
+                }
+            }
+
+            for (int i = 0; i < rooms.Count; i++){
+                if (!rooms[i].isConnected){
+                    int j = Random.Range(1, rooms.Count);
+                    MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
+                }
+            }
+            MakeWalls();
+            //Debug.Log("Floortiles: "+GetNumberOfFloorTiles ());
+            //Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
+
+            if (GetNumberOfFloorTiles() == GetNumberOfConnectedFloorTiles()){
+                Debug.Log("Floortilet täsmää! Good!. Iteraatioita "+ite);
+                ite = 11;
+                FillWithFloor();
+            }else{
+                Debug.Log("Floortilet failaa, uudestaan >");
             }
         }
-        MakeWalls();
-		//Debug.Log("Floortiles: "+GetNumberOfFloorTiles ());
-		//Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
-
-		if (GetNumberOfFloorTiles () == GetNumberOfConnectedFloorTiles ()) {
-			Debug.Log ("Sama! Tämä käy");
-		} else {
-			Debug.Log ("Arvo uudestaan!");
-		}
-		/*
-		if (rooms.Count > 1) {
-			for (int i = 1; i < rooms.Count; i++) {
-				if (isConnectedToOtherRoom (rooms [0], rooms [i])) {
-					Debug.Log ("Can connect to:" + i);
-				} else {
-					Debug.Log ("Cannot connect to all! "+i);
-					break;
-				}
-			}
-		}*/
 	}
+    // täytellään takaisin floortilellä, kun saatu selville kenttä, jossa kaikki huoneet yhdistyy.
+    // tänne voi laittaa myös eri tilejä sitten arvottavaksi, esim randomilla.
+    void FillWithFloor(){ 
+        for (int x = 0; x < tilemap_size_x; x++){
+            for (int y = 0; y < tilemap_size_y; y++){
+                if(tilemap_data[x,y] == 0){
+                    tilemap_data[x, y] = 1;
+                }
+            }
+        }
+    }
+
 	public Vector3 GetStartingRoomPosition(){
 		return new Vector3 (rooms [0].center_x (),0, rooms [0].center_y ());
 	}
