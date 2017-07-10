@@ -25,7 +25,6 @@ public class MonsterScript : MonoBehaviour {
 		lastTime = Time.fixedTime;
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
-		//parent = this.gameObject.GetComponentInParent<MonsterSpawnerScript> ();
 		masterSpawner = gameObject.GetComponentInParent<MonsterSpawnerScript> ();
         //Debug.Log(monsterArts.);
 		/*
@@ -54,10 +53,23 @@ public class MonsterScript : MonoBehaviour {
 	void Update () {
 		if (hasDestination) {
 			if (Time.fixedTime > lastTime + movementInterval) {
+				if (canHitPlayer ()) {
+					Debug.Log ("SMACK");
+				} else {
+					Move ();
+				}
 				lastTime = Time.fixedTime;
-				Move ();
 			}
 		}
+
+	}
+
+	public bool canHitPlayer(){
+		player = GameObject.FindGameObjectWithTag ("Player").transform;
+		if (player.position.x == transform.position.x && player.position.z == transform.position.z ) {
+			return true;
+		}
+		return false;
 	}
 
 	public void SetDestination(int dx, int dy){
