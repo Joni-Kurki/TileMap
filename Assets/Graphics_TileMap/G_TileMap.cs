@@ -19,18 +19,18 @@ public class G_TileMap : MonoBehaviour {
 	MonsterSpawnerScript mSpawner;
 	Data_TileMap dTileMap;
 
+	int [,] tileMapDataCopy;
+
 	// Use this for initialization
 	void Start () {
 		BuildMesh ();
 		mSpawner = mSpawnerPrefab.GetComponent<MonsterSpawnerScript> ();
-		mSpawner.InstantiateMonster (20, 20, "Devil");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.F8)) {
-			Debug.Log ("F8");
-			RandomizeMonsters (60);
+			RandomizeMonsters (1);
 		}
 	}
 
@@ -82,13 +82,12 @@ public class G_TileMap : MonoBehaviour {
 			}
 		}
 
-		texture.filterMode = FilterMode.Bilinear;
+		texture.filterMode = FilterMode.Point;
 		texture.wrapMode = TextureWrapMode.Clamp;
 		texture.Apply ();
 
 		MeshRenderer mesh_renderer = GetComponent<MeshRenderer> ();
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
-
 		Debug.Log("Textures done!");
 	}
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat

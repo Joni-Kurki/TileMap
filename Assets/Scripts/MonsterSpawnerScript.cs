@@ -37,12 +37,18 @@ public class MonsterSpawnerScript : MonoBehaviour {
     List<Monster> mDBList;
     List<Monster> mList;
 
+
+	G_TileMap map;
+	public GameObject tilemapPrefab;
+
 	// Use this for initialization
 	void Start () {
         mDBList = new List<Monster>();
         mList = new List<Monster>();
         InitMonstersTypes(mDBList);
-        Debug.Log("Monsters in db: " + mDBList.Count);
+        //Debug.Log("Monsters in db: " + mDBList.Count);
+		map = tilemapPrefab.GetComponent<G_TileMap> ();
+		//Debug.Log (map.GetTileAt (0, 0) + " " + map.GetTileAt (10, 10));
 	}
     // Luodaan monster database listaan, josta voidaan sitten hakea monstereita spawnerille. 
     // Muutetaan mType tarvittaessa indeksi numeroksi FindMonsterIDByString -metodilla, artseja varten
@@ -55,6 +61,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mDBList.Add(skeleton);
         //FindAndSpawnMonsters(spawnX, spawnY, mType);
     }
+		
 	/*
     void FindAndSpawnMonsters(int x, int y, string mType, int number = 1) {
         bool found = false;
@@ -71,7 +78,9 @@ public class MonsterSpawnerScript : MonoBehaviour {
         }
     }*/
 
-
+	public int GetTileAt(int x, int y){
+		return map.GetTileAt (x, y);
+	}
 
     int FindMonsterIDByString(string mType) {
         bool found = false;
@@ -98,17 +107,18 @@ public class MonsterSpawnerScript : MonoBehaviour {
         Monster tMon = new Monster(5, mType, 2);
         mList.Add(tMon);
         int tempIndex = mList.Count - 1;
-        GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.01f, y), monsterPrefab.transform.rotation, transform);
+        GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.03f, y), monsterPrefab.transform.rotation, transform);
         MonsterScript mS = go.GetComponent<MonsterScript>();
         mS.setMonsterID(FindMonsterIDByString(mType));
+		//mS.tilemapData = tileMapData;
+		mS.SetDestination (Random.Range(0, 50), Random.Range(0,50));
     }
 
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.F5)) {
-            InstantiateMonster(13, 15, "Goblin");
-            InstantiateMonster(14, 15, "Devil");
-            InstantiateMonster(15, 15, "Skeleton");
-        }
+		if (Input.GetKeyDown (KeyCode.F6)) {
+			Debug.Log (""+mList.Count);
+			Debug.Log (map.GetTileAt (0, 0) + " " + map.GetTileAt (10, 10));
+		}
 	}
 }
