@@ -96,11 +96,11 @@ public class Data_TileMap{
             //Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
 
             if (GetNumberOfFloorTiles() == GetNumberOfConnectedFloorTiles()){
-                Debug.Log("Floortilet täsmää! Good!. Iteraatioita "+ite);
+                Debug.Log("Floortilet täsmää. Iteraatioita "+ite);
                 ite = 11;
                 FillWithFloor();
             }else{
-                Debug.Log("Floortilet failaa, uudestaan >");
+                Debug.Log("Floortilet failaa, > uudestaan!");
             }
         }
 	}
@@ -242,22 +242,11 @@ public class Data_TileMap{
 			return -1;
 		} else {
 			for (int i = 0; i < newTiles.Count; i++) {
-				/*
-				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y+1] == 1){
-					Debug.Log ("-1|+1");
-					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y+1));
-					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y + 1] = 0;
-				}*/
 				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y] == 1){
 					//Debug.Log ("-1|0");
 					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y));
 					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y] = 0;
-				}/*
-				if(tilemap_data[(int)newTiles[i].x-1, (int)newTiles[i].y-1] == 1){
-					Debug.Log ("-1|-1");
-					newTiles.Add (new Vector2 (newTiles[i].x-1, newTiles[i].y-1));
-					tilemap_data [(int)newTiles [i].x - 1, (int)newTiles [i].y-1] = 0;
-				}*/
+				}
 				if(tilemap_data[(int)newTiles[i].x+1, (int)newTiles[i].y] == 1){
 					//Debug.Log ("+1|0");
 					newTiles.Add (new Vector2 (newTiles[i].x+1, newTiles[i].y));

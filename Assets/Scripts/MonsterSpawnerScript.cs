@@ -33,7 +33,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
     public string mType;
 
     public GameObject monsterPrefab;
-    public Sprite [] monsterArts;
+    //public Sprite [] monsterArts;
     List<Monster> mDBList;
     List<Monster> mList;
 
@@ -42,7 +42,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mDBList = new List<Monster>();
         mList = new List<Monster>();
         InitMonstersTypes(mDBList);
-        Debug.Log("Monsters in db: " + mDBList.Count + " arts in db: "+monsterArts.Length );
+        Debug.Log("Monsters in db: " + mDBList.Count);
 	}
     // Luodaan monster database listaan, josta voidaan sitten hakea monstereita spawnerille. 
     // Muutetaan mType tarvittaessa indeksi numeroksi FindMonsterIDByString -metodilla, artseja varten
@@ -55,7 +55,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mDBList.Add(skeleton);
         //FindAndSpawnMonsters(spawnX, spawnY, mType);
     }
-
+	/*
     void FindAndSpawnMonsters(int x, int y, string mType, int number = 1) {
         bool found = false;
         for (int i = 0; i < mDBList.Count; i++) {
@@ -69,26 +69,32 @@ public class MonsterSpawnerScript : MonoBehaviour {
         if(!found){
             Debug.Log("Monster type dont match!");
         }
-    }
+    }*/
+
+
 
     int FindMonsterIDByString(string mType) {
         bool found = false;
         int temp = -1;
-        for (int i = 0; i < mDBList.Count; i++) {
-            if (mDBList[i].GetMType() == mType) {
-                found = true;
-                temp = mDBList[i].GetArtsID();
-                //Debug.Log("Found monster "+i);
-                break;
-            }
-        }
-        if (!found) {
-            Debug.Log("Monster type dont match!");
-        }
+		if (mType == "Random") {
+			temp = Random.Range (0, mDBList.Count);
+		} else {
+			for (int i = 0; i < mDBList.Count; i++) {
+				if (mDBList [i].GetMType () == mType) {
+					found = true;
+					temp = mDBList [i].GetArtsID ();
+					//Debug.Log("Found monster "+i);
+					break;
+				}
+			}
+			if (!found) {
+				Debug.Log ("Monster type dont match!");
+			}
+		}
         return temp;
     }
 
-    void InstantiateMonster(int x, int y, string mType) { // instatioidaan monsteri peliin
+    public void InstantiateMonster(int x, int y, string mType) { // instatioidaan monsteri peliin
         Monster tMon = new Monster(5, mType, 2);
         mList.Add(tMon);
         int tempIndex = mList.Count - 1;

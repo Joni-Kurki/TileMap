@@ -15,16 +15,23 @@ public class G_TileMap : MonoBehaviour {
 	public Texture2D mapTileGraphics; // tähän spritet
 	public int tileResolution; // esim 16x16px tile -> 16px
 
+	public GameObject mSpawnerPrefab;
+	MonsterSpawnerScript mSpawner;
 	Data_TileMap dTileMap;
 
 	// Use this for initialization
 	void Start () {
 		BuildMesh ();
+		mSpawner = mSpawnerPrefab.GetComponent<MonsterSpawnerScript> ();
+		mSpawner.InstantiateMonster (20, 20, "Devil");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (Input.GetKeyDown(KeyCode.F8)) {
+			Debug.Log ("F8");
+			RandomizeMonsters (60);
+		}
 	}
 
 	Color [][] ChopUpTiles(){
@@ -38,8 +45,25 @@ public class G_TileMap : MonoBehaviour {
 				tiles [y * numberOfTilesPerRow + x] = mapTileGraphics.GetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution);
 			}
 		}
-
 		return tiles;
+	}
+
+	void RandomizeMonsters(int number=1){
+		int fails = 0;
+		int spawned = 0;
+		while (spawned < number){ 
+			int rX = Random.Range (0, size_x);
+			int rY = Random.Range (0, size_y);
+			if (dTileMap.GetTileAt (rX, rY) == 1) {
+				mSpawner.InstantiateMonster (rX, rY, "Random");
+				fails = 0;
+				spawned++;
+			}else{
+				fails++;
+				if (fails > 30)
+					break;
+			}
+		}
 	}
 
 	void BuildTexture(){
