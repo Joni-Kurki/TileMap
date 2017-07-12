@@ -74,7 +74,7 @@ public class Data_TileMap{
 
             rooms = new List<Data_Room>();
             Data_Room dr;
-            for (int i = 0; i < 100; i++){
+            for (int i = 0; i < 8; i++){
                 int r_size_x = Random.Range(5, 9);
                 int r_size_y = Random.Range(4, 8);
                 dr = new Data_Room(Random.Range(0, tilemap_size_x - r_size_x+1), Random.Range(0, tilemap_size_y - r_size_y+1), r_size_x, r_size_y);
