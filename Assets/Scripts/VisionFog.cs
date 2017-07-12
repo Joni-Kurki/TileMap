@@ -14,11 +14,12 @@ public class VisionFog : MonoBehaviour {
 	public int fog_heigth;
 	public int tileSize;
 	int tileResolution = 16;
+	GameObject mapdata;
+	G_TileMap g;
 
 	int[,] fogData;
 
-	// Use this for initialization
-	void Start () {
+	void Awake(){
 		fog_x = (int)transform.position.x;
 		fog_y = (int)transform.position.z;
 		fogData = new int [fog_width, fog_heigth];
@@ -28,33 +29,109 @@ public class VisionFog : MonoBehaviour {
 				fogData[x,y] = 0;
 			}
 		}
-		Fog ();
+		//Fog ();
 		BuildMesh ();
+	}
+
+	// Use this for initialization
+	void Start () {
+		mapdata = GameObject.FindGameObjectWithTag ("GameWorld");
+		g = mapdata.GetComponent<G_TileMap> ();
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
 		if (isFogOn) {
-			Transform p = GameObject.FindGameObjectWithTag ("Player").transform;
-			transform.position = new Vector3((int)p.transform.position.x - ( fog_width / 2), 0.05f, (int)p.transform.position.z - (fog_heigth /2 ));
+			if (Input.anyKeyDown) {
+				
+				Fog ();
+				transform.position = new Vector3 ((int)transform.parent.position.x - (fog_width / 2), 0.05f, (int)transform.parent.position.z - (fog_heigth / 2));
+			}
+		} else if (!isFogOn) {
+			for (int x = 0; x < fog_width; x++) {
+				for (int y = 0; y < fog_heigth; y++) {
+					fogData[x,y] = 0;
+				}
+			}
+			BuildTexture ();
 		}
+	}
+
+	void DynamicFog(){
+		int left = (int)transform.parent.position.x;
+		int bottom = (int)transform.parent.position.z;
+		int right = g.size_x - left;
+		int top = g.size_y - bottom;
+
+		if (left > 15)
+			left = 15;
+		if (right > 15)
+			right = 15;
+		if (bottom > 15)
+			bottom = 15;
+		if (top > 15)
+			top = 15;
+		int fog_x = left + right;
+		int fog_y = bottom + top;
+
+		Debug.Log ("< Left: "+left+ " Rigth: " +right+" Bottom: "+bottom+ " Top: "+top);
+		Debug.Log (fog_x + "," + fog_y);
 	}
 
 	void Fog(){
 		/*
-		fogData [4, 4] = 1;
-		fogData [4, 5] = 1;
-		fogData [5, 4] = 1;
-		fogData [5, 5] = 1;
-		fogData [5, 6] = 1;
+		Debug.Log ("| ->"+((int)transform.parent.position.x - fog_width/2) + " ," +((int)transform.parent.position.z - fog_heigth/2));
+		Debug.Log (((int)transform.parent.position.x + fog_width/2) + " ," +((int)transform.parent.position.z + fog_heigth/2)+"<- |");
+		for (int x = 0; x < fog_width; x++) {
+			for (int y = 0; y < fog_heigth; y++) {
+				if (g.GetTileAt ((int)transform.parent.position.x - fog_width/2, (int)transform.parent.position.z - fog_heigth/2) == 1) {
+					fogData [x,y] = 1;
+				} else {
+					fogData [x,y] = 0;
+				}
+			}
+		}
+		Debug.Log(g.GetTileAt((int)transform.parent.position.x - fog_width/2, ((int)transform.parent.position.z - fog_heigth/2))+"");
 		*/
 
-		for (int x = 10; x < fog_width-10; x++) {
-			for (int y = 10; y < fog_heigth-10; y++) {
+
+		/*
+		for (int x = 5; x < 15; x++) {
+			for (int y = 5; y < 15; y++) {
 				fogData [x, y] = 1;
 			}
 		}
-
+		*/
+		if ((int)transform.parent.position.x > (fog_width / 2) && (int)transform.parent.position.z > (fog_heigth) / 2 && (int)transform.parent.position.x < g.size_x-(fog_width / 2) && (int)transform.parent.position.z < g.size_y-(fog_heigth / 2)) {
+			for (int x = 0; x < fog_width; x++) {
+				for (int y = 0; y < fog_heigth; y++) {
+					Debug.Log (g.GetTileAt ((int)transform.parent.position.x - fog_width / 2, (int)transform.parent.position.z - fog_width / 2) + " ("+((int)transform.parent.position.x - fog_width / 2)+"|"+((int)transform.parent.position.z - fog_heigth/ 2)+")");
+					if (g.GetTileAt (x+(int)transform.parent.position.x - fog_width / 2 , y+(int)transform.parent.position.z - fog_width / 2) == 1) {
+						fogData [x,y] = 1;
+					}
+				}
+			}
+		}
+		/*
+		int tries = 0;
+		int x = (int)transform.parent.position.x;
+		int y = (int)transform.parent.position.z;
+		for (int i = 0; i < 5; i++) {
+			if (g.GetTileAt (x, y) == 1) {
+				fogData [x, y] = 1;
+				x++;
+			}
+		}
+		x = (int)transform.parent.position.x;
+		y = (int)transform.parent.position.z;
+		for (int i = 0; i < 5; i++) {
+			if (g.GetTileAt (x, y) == 1) {
+				fogData [x, y] = 1;
+				x--;
+			}
+		}
+		*/
+		BuildTexture ();
 	}
 
 	public void BuildMesh(){

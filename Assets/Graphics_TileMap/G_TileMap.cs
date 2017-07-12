@@ -88,7 +88,7 @@ public class G_TileMap : MonoBehaviour {
 
 		MeshRenderer mesh_renderer = GetComponent<MeshRenderer> ();
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
-		Debug.Log("Textures done!");
+		Debug.Log("MAP::Textures done!");
 	}
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
 	public Vector3 GetStartingLocation(){
@@ -120,7 +120,7 @@ public class G_TileMap : MonoBehaviour {
 				uv [y * vert_size_x + x] = new Vector2 ((float)x / size_x, (float)y / size_y);
 			}
 		}
-		Debug.Log ("Verts done!");
+		Debug.Log ("MAP::Verts done!");
 		for (y = 0; y < size_y; y++) {
 			for (x = 0; x < size_x; x++) {
 				int squareIndex = y * size_x + x;
@@ -135,7 +135,7 @@ public class G_TileMap : MonoBehaviour {
 				triangles [trisOffset + 5] = y * vert_size_x + x + 					1;
 			}
 		}
-		Debug.Log ("Tris done!");
+		Debug.Log ("MAP::Tris done!");
 		// luodaan mesh aiemmin luodulla arvoilla
 		Mesh mesh = new Mesh ();
 		mesh.vertices = verticles;
@@ -148,7 +148,7 @@ public class G_TileMap : MonoBehaviour {
 
 		mesh_filter.mesh = mesh;
 		mesh_collider.sharedMesh = mesh;
-		Debug.Log ("Mesh done!");
+		Debug.Log ("MAP::Mesh done!");
 
 		BuildTexture ();
 	}
