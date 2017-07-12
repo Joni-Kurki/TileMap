@@ -42,8 +42,7 @@ public class VisionFog : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
 		if (isFogOn) {
-			if (Input.anyKeyDown) {
-				
+			if (Input.anyKey) {
 				Fog ();
 				transform.position = new Vector3 ((int)transform.parent.position.x - (fog_width / 2), 0.05f, (int)transform.parent.position.z - (fog_heigth / 2));
 			}
@@ -79,58 +78,21 @@ public class VisionFog : MonoBehaviour {
 	}
 
 	void Fog(){
-		/*
-		Debug.Log ("| ->"+((int)transform.parent.position.x - fog_width/2) + " ," +((int)transform.parent.position.z - fog_heigth/2));
-		Debug.Log (((int)transform.parent.position.x + fog_width/2) + " ," +((int)transform.parent.position.z + fog_heigth/2)+"<- |");
-		for (int x = 0; x < fog_width; x++) {
-			for (int y = 0; y < fog_heigth; y++) {
-				if (g.GetTileAt ((int)transform.parent.position.x - fog_width/2, (int)transform.parent.position.z - fog_heigth/2) == 1) {
-					fogData [x,y] = 1;
-				} else {
-					fogData [x,y] = 0;
-				}
-			}
-		}
-		Debug.Log(g.GetTileAt((int)transform.parent.position.x - fog_width/2, ((int)transform.parent.position.z - fog_heigth/2))+"");
-		*/
 
-
-		/*
-		for (int x = 5; x < 15; x++) {
-			for (int y = 5; y < 15; y++) {
-				fogData [x, y] = 1;
-			}
-		}
-		*/
 		if ((int)transform.parent.position.x > (fog_width / 2) && (int)transform.parent.position.z > (fog_heigth) / 2 && (int)transform.parent.position.x < g.size_x-(fog_width / 2) && (int)transform.parent.position.z < g.size_y-(fog_heigth / 2)) {
 			for (int x = 0; x < fog_width; x++) {
 				for (int y = 0; y < fog_heigth; y++) {
-					Debug.Log (g.GetTileAt ((int)transform.parent.position.x - fog_width / 2, (int)transform.parent.position.z - fog_width / 2) + " ("+((int)transform.parent.position.x - fog_width / 2)+"|"+((int)transform.parent.position.z - fog_heigth/ 2)+")");
-					if (g.GetTileAt (x+(int)transform.parent.position.x - fog_width / 2 , y+(int)transform.parent.position.z - fog_width / 2) == 1) {
-						fogData [x,y] = 1;
+					//Debug.Log (g.GetTileAt ((int)transform.parent.position.x - fog_width / 2, (int)transform.parent.position.z - fog_width / 2) + " ("+((int)transform.parent.position.x - fog_width / 2)+"|"+((int)transform.parent.position.z - fog_heigth/ 2)+")");
+					if (g.GetTileAt (x + (int)transform.parent.position.x - fog_width / 2, y + (int)transform.parent.position.z - fog_width / 2) == 1 ||
+					    g.GetTileAt (x + (int)transform.parent.position.x - fog_width / 2, y + (int)transform.parent.position.z - fog_width / 2) == 2) {
+						fogData [x, y] = 1;
+					} else {
+						fogData [x, y] = 0;
 					}
 				}
 			}
 		}
-		/*
-		int tries = 0;
-		int x = (int)transform.parent.position.x;
-		int y = (int)transform.parent.position.z;
-		for (int i = 0; i < 5; i++) {
-			if (g.GetTileAt (x, y) == 1) {
-				fogData [x, y] = 1;
-				x++;
-			}
-		}
-		x = (int)transform.parent.position.x;
-		y = (int)transform.parent.position.z;
-		for (int i = 0; i < 5; i++) {
-			if (g.GetTileAt (x, y) == 1) {
-				fogData [x, y] = 1;
-				x--;
-			}
-		}
-		*/
+
 		BuildTexture ();
 	}
 
