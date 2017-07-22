@@ -14,19 +14,20 @@ public class MonsterScript : MonoBehaviour {
 	private float lastTime;
 	public int destX;
 	public int destY;
+	int hitRange;
 
 	MonsterSpawnerScript masterSpawner;
-	public Transform player;
+	Transform player;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		movementInterval = 0.5f;
+		hitRange = 1;
 		lastTime = Time.fixedTime;
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
 		masterSpawner = gameObject.GetComponentInParent<MonsterSpawnerScript> ();
-        //Debug.Log(monsterArts.);
 		/*
 		string t = "";
 		for (int i = 0; i < 30; i++) {
@@ -64,9 +65,12 @@ public class MonsterScript : MonoBehaviour {
 
 	}
 
-	public bool canHitPlayer(){
+	public bool canHitPlayer(){ // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
-		if (player.position.x == transform.position.x && player.position.z == transform.position.z ) {
+		if ((player.position.x == transform.position.x + hitRange && player.position.z == transform.position.z) || 
+			(player.position.x == transform.position.x - hitRange && player.position.z == transform.position.z) ||
+			(player.position.x == transform.position.x && player.position.z == transform.position.z + hitRange) ||
+			(player.position.x == transform.position.x && player.position.z == transform.position.z - hitRange)) {
 			return true;
 		}
 		return false;

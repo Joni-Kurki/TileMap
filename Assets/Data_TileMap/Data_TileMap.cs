@@ -96,11 +96,11 @@ public class Data_TileMap{
             //Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
 
             if (GetNumberOfFloorTiles() == GetNumberOfConnectedFloorTiles()){
-                Debug.Log("Floortilet täsmää. Iteraatioita "+ite);
+                //Debug.Log("Floortilet täsmää. Iteraatioita "+ite);
                 ite = 11;
                 FillWithFloor();
             }else{
-                Debug.Log("Floortilet failaa, > uudestaan!");
+                //Debug.Log("Floortilet failaa, > uudestaan!");
             }
         }
 	}
@@ -238,11 +238,11 @@ public class Data_TileMap{
 
 	int RecuTest(List<Vector2> newTiles, int iterations){
 		if (iterations > 1) {
-			Debug.Log (">10 breaking");
+			//Debug.Log (">10 breaking");
 			return -1;
 		}
 		if (newTiles.Count == 0) {
-			Debug.Log ("0 > returning");
+			//Debug.Log ("0 > returning");
 			return -1;
 		} else {
 			for (int i = 0; i < newTiles.Count; i++) {
