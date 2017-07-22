@@ -8,16 +8,22 @@ public class FogVol2 : MonoBehaviour {
 
 	public int size_x;
 	public int size_y;
+	public int vision_width;
+	public int vision_height;
 	public Texture2D FogTexture;
 	public int tileSize;
 	int tileResolution = 16;
 	GameObject mapdata;
 	G_TileMap g;
-
+	public Vector3 lastPosition;
 	int[,] fogData;
 	Transform player;
-
 	bool FogInit = false;
+
+	public int fog_x_min;
+	public int fog_y_min;
+	public int fog_x_max;
+	public int fog_y_max;
 
 	// Use this for initialization
 	void Awake () {
@@ -36,23 +42,69 @@ public class FogVol2 : MonoBehaviour {
 		mapdata = GameObject.FindGameObjectWithTag ("GameWorld");
 		g = mapdata.GetComponent<G_TileMap> ();
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
-
+		lastPosition = player.transform.position;
 	}
 
 	
 	// Update is called once per frame
 	void LateUpdate () {
 		if (!FogInit) {
-			SeeCorridors ();
+			SeeAllCorridors ();
 			FogInit = true;
+		}
+		if (lastPosition != player.transform.position) { // katotaan onko pelaaja liikkunut, jolloin fogia muutetaan
+			Debug.Log ("Me have moved! Build Texture again!");
+			lastPosition = player.transform.position;
+			PlayerFog ();
 		}
 	}
 
-	void SeeCorridors(){
+	void Update(){
+		
+	}
+
+	void PlayerFog(){
+		fog_x_min = 0;
+		fog_y_min = 0;
+		fog_x_max = 0;
+		fog_y_max = 0;
+
+		if (player.transform.position.x - (vision_width / 2) > 0) {
+			fog_x_min = (int)(player.transform.position.x - (vision_width / 2));
+		} else {
+			fog_x_min = 0;
+		}
+		if (player.transform.position.z - (vision_height / 2) > 0) {
+			fog_y_min = (int)(player.transform.position.z - (vision_height / 2));
+		} else{
+			fog_y_min = 0;
+		}
+		if (player.transform.position.x + (vision_width / 2) < size_x) {
+			fog_x_max = (int)(player.transform.position.x + (vision_width / 2));
+		} else {
+			fog_x_max = size_x;
+		}
+		if (player.transform.position.z + (vision_height / 2) < size_y) {
+			fog_y_max = (int)(player.transform.position.z + (vision_height / 2));
+		} else {
+			fog_y_max = size_y;
+		}
+		for (int x = 0; x < size_x; x++) {
+			for (int y = 0; y < size_y; y++) {
+				if (x >= fog_x_min && x <= fog_x_max && y >= fog_y_min && y <= fog_y_max && (g.GetTileAt(x,y) == 1 || g.GetTileAt(x,y) == 2)) {
+					fogData [x, y] = 1;
+				} else {
+					fogData [x, y] = 0;
+				}
+			}
+		}
+		BuildTexture ();
+	}
+
+	void SeeAllCorridors(){
 		for (int x = 0; x < size_x; x++) {
 			for (int y = 0; y < size_y; y++) {
 				if (g.GetTileAt (x, y) == 1 || g.GetTileAt (x, y) == 2) {
-					//Debug.Log ("Free");
 					fogData [x, y] = 1;
 				} else {
 					fogData [x, y] = 0;

@@ -15,4 +15,5 @@
 - have basic 4 way moving
 - Very basic AI to navigate random spots
 - Monsters can have different types with different arts
+- Have hitRange, which checks if player is in range (4 way check)
 - BUG: monster cannot get to waypoints
