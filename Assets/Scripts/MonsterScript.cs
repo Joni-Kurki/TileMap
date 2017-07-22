@@ -23,7 +23,7 @@ public class MonsterScript : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		movementInterval = 0.5f;
-		hitRange = 1;
+		hitRange = 2;
 		lastTime = Time.fixedTime;
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
@@ -67,11 +67,13 @@ public class MonsterScript : MonoBehaviour {
 
 	public bool canHitPlayer(){ // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
-		if ((player.position.x == transform.position.x + hitRange && player.position.z == transform.position.z) || 
-			(player.position.x == transform.position.x - hitRange && player.position.z == transform.position.z) ||
-			(player.position.x == transform.position.x && player.position.z == transform.position.z + hitRange) ||
-			(player.position.x == transform.position.x && player.position.z == transform.position.z - hitRange)) {
-			return true;
+		for (int i = 0; i <= hitRange; i++) {
+			if (((int)player.position.x == (int)transform.position.x + (hitRange-i) && (int)player.position.z == (int)transform.position.z) ||
+				((int)player.position.x == (int)transform.position.x - (hitRange-i) && (int)player.position.z == (int)transform.position.z) ||
+				((int)player.position.x == (int)transform.position.x && (int)player.position.z == (int)transform.position.z + (hitRange-i)) ||
+				((int)player.position.x == (int)transform.position.x && (int)player.position.z == (int)transform.position.z - (hitRange-i)) ){
+				return true;
+			}
 		}
 		return false;
 	}
