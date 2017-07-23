@@ -20,10 +20,12 @@ public class MonsterScript : MonoBehaviour {
 
 	MonsterSpawnerScript masterSpawner;
 	Transform player;
+    PlayerScript ps;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
+        ps = player.GetComponent<PlayerScript>();
 		movementInterval = 0.5f;
 		lastTime = Time.fixedTime;
 		x = (int)transform.position.x;
@@ -71,6 +73,7 @@ public class MonsterScript : MonoBehaviour {
 		if (hasDestination) {
 			if (Time.fixedTime > lastTime + movementInterval) {
 				if (canHitPlayer ()) {
+                    ps.TakeDamage(1);
 					Debug.Log ("SMACK");
 				} else {
 					Move ();
