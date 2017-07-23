@@ -5,7 +5,8 @@ using UnityEngine;
 public class Monster {
     int x = 0;
     int y = 0;
-    int hp;
+    int maxHp;
+    int currentHp;
     int artsID;
     int hitRange;
     string mType;
@@ -13,26 +14,27 @@ public class Monster {
     public Monster(string mType) {
         this.mType = mType;
         setMonsterStats();
+        currentHp = maxHp;
     }
     void setMonsterStats() {
         switch (mType) {
             case "Goblin":
-                hp = 5;
+                maxHp = 5;
                 artsID = 0;
                 hitRange = 1;
-                Debug.Log("Gob "+hp+" "+hitRange);
+                //Debug.Log("Gob "+maxHp+" "+hitRange);
                 break;
             case "Devil":
-                hp = 8;
+                maxHp = 8;
                 hitRange = 2;
                 artsID = 1;
-                Debug.Log("Dev " + hp + " " + hitRange);
+                //Debug.Log("Dev " + maxHp + " " + hitRange);
                 break;
             case "Skeleton":
-                hp = 6;
+                maxHp = 6;
                 hitRange = 1;
                 artsID = 2;
-                Debug.Log("Ske " + hp + " " + hitRange);
+                //Debug.Log("Ske " + maxHp + " " + hitRange);
                 break;
         }
     }
@@ -50,6 +52,13 @@ public class Monster {
     }
     public string GetMType() {
         return mType;
+    }
+    public void TakeDamage(int value) {
+        currentHp -= value;
+        Debug.Log("Taking DMG!!");
+    }
+    public int GetCurrentHp() {
+        return currentHp;
     }
 }
 
@@ -133,10 +142,15 @@ public class MonsterSpawnerScript : MonoBehaviour {
         GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.03f, y), monsterPrefab.transform.rotation, transform);
         MonsterScript mS = go.GetComponent<MonsterScript>();
         mS.setMonsterID(FindMonsterIDByString(mType));
-		//mS.tilemapData = tileMapData;
+        mS.SetListIndex(tempIndex);
 		mS.SetDestination (Random.Range(0, 50), Random.Range(0,50));
         Debug.Log("Instantiate monster " + tMon.GetMType());
         mS.SetHitRange(tMon.GetHitRange());
+        mS.SetMonsterData(tMon);
+    }
+
+    public Monster GetMonsterData(int index) {
+        return mList[index];
     }
 
 	// Update is called once per frame

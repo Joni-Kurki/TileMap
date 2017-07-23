@@ -15,6 +15,8 @@ public class MonsterScript : MonoBehaviour {
 	public int destX;
 	public int destY;
 	int hitRange;
+    int index;
+    Monster mRef;
 
 	MonsterSpawnerScript masterSpawner;
 	Transform player;
@@ -38,15 +40,26 @@ public class MonsterScript : MonoBehaviour {
 		Debug.Log (t);
 		*/
 	}
+    public void SetListIndex(int index) {
+        this.index = index;
+    }
+
 
     public void setMonsterID(int ID) {
         this.monsterID = ID;
         InitMonster();
+
     }
 
     void InitMonster() {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = monsterArts[monsterID];
+    }
+
+    public void SetMonsterData(Monster m) {
+        //mRef = new Monster(m.GetMType());
+        mRef = m;
+        Debug.Log(" " + mRef.GetMType() + " ");
     }
 
     public void SetHitRange(int value) {
@@ -65,6 +78,9 @@ public class MonsterScript : MonoBehaviour {
 				lastTime = Time.fixedTime;
 			}
 		}
+        if (mRef.GetCurrentHp() <= 0) {
+            Destroy(gameObject);
+        }
 
 	}
 
@@ -130,4 +146,6 @@ public class MonsterScript : MonoBehaviour {
 		}
 		//Debug.DrawLine (transform.position + new Vector3(.5f, 0, .5f), new Vector3 (destX + .5f, 0.01f, destY+ .5f), Color.red, .5f);
 	}
+    
+
 }
