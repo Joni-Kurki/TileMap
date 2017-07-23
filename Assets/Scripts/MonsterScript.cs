@@ -23,7 +23,6 @@ public class MonsterScript : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		movementInterval = 0.5f;
-		hitRange = 2;
 		lastTime = Time.fixedTime;
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
@@ -48,6 +47,10 @@ public class MonsterScript : MonoBehaviour {
     void InitMonster() {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = monsterArts[monsterID];
+    }
+
+    public void SetHitRange(int value) {
+        this.hitRange = value;
     }
 
 	// Update is called once per frame

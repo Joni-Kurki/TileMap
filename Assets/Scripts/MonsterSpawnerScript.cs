@@ -7,13 +7,40 @@ public class Monster {
     int y = 0;
     int hp;
     int artsID;
+    int hitRange;
     string mType;
 
-    public Monster(int hp, string mType, int artsID) {
-        this.hp = hp;
+    public Monster(string mType) {
         this.mType = mType;
-        this.artsID = artsID;
+        setMonsterStats();
     }
+    void setMonsterStats() {
+        switch (mType) {
+            case "Goblin":
+                hp = 5;
+                artsID = 0;
+                hitRange = 1;
+                Debug.Log("Gob "+hp+" "+hitRange);
+                break;
+            case "Devil":
+                hp = 8;
+                hitRange = 2;
+                artsID = 1;
+                Debug.Log("Dev " + hp + " " + hitRange);
+                break;
+            case "Skeleton":
+                hp = 6;
+                hitRange = 1;
+                artsID = 2;
+                Debug.Log("Ske " + hp + " " + hitRange);
+                break;
+        }
+    }
+
+    public int GetHitRange() {
+        return hitRange;
+    }
+
     public void SetLocation(int x, int y) {
         this.x = x;
         this.y = y;
@@ -37,7 +64,6 @@ public class MonsterSpawnerScript : MonoBehaviour {
     List<Monster> mDBList;
     List<Monster> mList;
 
-
 	G_TileMap map;
 	public GameObject tilemapPrefab;
 
@@ -53,30 +79,14 @@ public class MonsterSpawnerScript : MonoBehaviour {
     // Luodaan monster database listaan, josta voidaan sitten hakea monstereita spawnerille. 
     // Muutetaan mType tarvittaessa indeksi numeroksi FindMonsterIDByString -metodilla, artseja varten
     void InitMonstersTypes(List<Monster> mDBList) { 
-        Monster goblin = new Monster(5, "Goblin", 0);
+        Monster goblin = new Monster("Goblin");
         mDBList.Add(goblin);
-        Monster devil = new Monster(10, "Devil", 1);
+        Monster devil = new Monster("Devil");
         mDBList.Add(devil);
-        Monster skeleton = new Monster(6, "Skeleton", 2);
+        Monster skeleton = new Monster("Skeleton");
         mDBList.Add(skeleton);
         //FindAndSpawnMonsters(spawnX, spawnY, mType);
     }
-		
-	/*
-    void FindAndSpawnMonsters(int x, int y, string mType, int number = 1) {
-        bool found = false;
-        for (int i = 0; i < mDBList.Count; i++) {
-            if (mDBList[i].GetMType() == mType) {
-                SpriteRenderer sr = GetComponent<SpriteRenderer>();
-                sr.sprite = monsterArts[mDBList[i].GetArtsID()];
-                found = true;
-                transform.position = new Vector3(x, 0.01f, y);
-            }
-        }
-        if(!found){
-            Debug.Log("Monster type dont match!");
-        }
-    }*/
 
 	public int GetTileAt(int x, int y){
 		return map.GetTileAt (x, y);
@@ -104,7 +114,20 @@ public class MonsterSpawnerScript : MonoBehaviour {
     }
 
     public void InstantiateMonster(int x, int y, string mType) { // instatioidaan monsteri peliin
-        Monster tMon = new Monster(5, mType, 2);
+        if (mType == "Random") {
+            switch(Random.Range(0,mDBList.Count)){
+                case 0:
+                    mType = "Goblin";
+                    break;
+                case 1:
+                    mType = "Devil";
+                    break;
+                case 2:
+                    mType = "Skeleton";
+                    break;
+            }
+        }
+        Monster tMon = new Monster(mType);
         mList.Add(tMon);
         int tempIndex = mList.Count - 1;
         GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.03f, y), monsterPrefab.transform.rotation, transform);
@@ -112,6 +135,8 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mS.setMonsterID(FindMonsterIDByString(mType));
 		//mS.tilemapData = tileMapData;
 		mS.SetDestination (Random.Range(0, 50), Random.Range(0,50));
+        Debug.Log("Instantiate monster " + tMon.GetMType());
+        mS.SetHitRange(tMon.GetHitRange());
     }
 
 	// Update is called once per frame
