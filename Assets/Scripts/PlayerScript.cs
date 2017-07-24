@@ -8,14 +8,14 @@ public class PlayerScript : MonoBehaviour {
     bool isDead;
 
 	// Use this for initialization
-	void Start () {
+	void Awake() {
         isDead = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (time <= 0 && !isDead) {
-            Debug.Log("Time's up mofo!");
+            Debug.Log("Time's up mofo! You Dead!");
             isDead = true;
         }
 	}

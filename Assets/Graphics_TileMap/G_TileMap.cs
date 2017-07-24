@@ -15,6 +15,8 @@ public class G_TileMap : MonoBehaviour {
 	public Texture2D mapTileGraphics; // tähän spritet
 	public int tileResolution; // esim 16x16px tile -> 16px
 
+    public GameObject StairsUp;
+    public GameObject StairsDown;
 	public GameObject mSpawnerPrefab;
 	MonsterSpawnerScript mSpawner;
 	Data_TileMap dTileMap;
@@ -66,6 +68,11 @@ public class G_TileMap : MonoBehaviour {
 		}
 	}
 
+    void InstantiateStairs() {
+        Instantiate(StairsUp, new Vector3(dTileMap.GetStairsUp().x, 0.05f, dTileMap.GetStairsUp().y), StairsUp.transform.rotation);
+        Instantiate(StairsDown, new Vector3(dTileMap.GetStairsDown().x, 0.05f, dTileMap.GetStairsDown().y), StairsDown.transform.rotation);
+    }
+
 	void BuildTexture(){
 		dTileMap =  new Data_TileMap (size_x, size_y);
 
@@ -89,6 +96,7 @@ public class G_TileMap : MonoBehaviour {
 		MeshRenderer mesh_renderer = GetComponent<MeshRenderer> ();
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
 		Debug.Log("MAP::Textures done!");
+        InstantiateStairs();
 	}
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
 	public Vector3 GetStartingLocation(){

@@ -8,15 +8,18 @@ public class Data_TileMap{
 		public int top;
 		public int width;
 		public int height;
+        bool hasStairsUp;
+        bool hasStairsDown;
+        public bool isConnected = false;
 
         public Data_Room(int left, int top, int width,int height){
             this.left = left;
             this.top = top;
             this.width = width;
             this.height = height;
+            hasStairsUp = false;
+            hasStairsDown = false;
         }
-
-		public bool isConnected=false;
 
 		public int right() {
 			return left + width - 1;
@@ -41,6 +44,12 @@ public class Data_TileMap{
 				return false;
 			return true;
 		}
+        public void HasStairsUp() {
+            hasStairsUp = true;
+        }
+        public void HasStairsDown() {
+            hasStairsDown = true;
+        }
 	}
 
 	int tilemap_size_x;
@@ -49,6 +58,7 @@ public class Data_TileMap{
 	int [,] tilemap_data;
 
 	public List<Data_Room> rooms;
+    public List<Vector2> stairs;
 	/*
 	 * 0 = unknown
 	 * 1 = fog
@@ -102,6 +112,7 @@ public class Data_TileMap{
             }else{
                 //Debug.Log("Floortilet failaa, > uudestaan!");
             }
+            MakeStairs();
         }
 	}
     // täytellään takaisin floortilellä, kun saatu selville kenttä, jossa kaikki huoneet yhdistyy.
@@ -116,6 +127,20 @@ public class Data_TileMap{
         }
     }
 
+    void MakeStairs() {
+        stairs = new List<Vector2>();
+        rooms[0].HasStairsUp();
+        stairs.Add(new Vector2((int)rooms[0].center_x(), (int)rooms[0].center_y()));
+        rooms[rooms.Count - 1].HasStairsDown();
+        stairs.Add(new Vector2((int)rooms[rooms.Count - 1].center_x(), (int)rooms[rooms.Count - 1].center_y()));
+    }
+
+    public Vector2 GetStairsUp() {
+        return stairs[0];
+    }
+    public Vector2 GetStairsDown() {
+        return stairs[1];
+    }
 	public int [,] getTilemapData(){
 		return tilemap_data;
 	}
@@ -228,7 +253,7 @@ public class Data_TileMap{
 				}
 			}
 		}
-		Debug.Log (startLocation.x+"|"+startLocation.y);
+		//Debug.Log (startLocation.x+"|"+startLocation.y);
 		List<Vector2> startPointInAList = new List<Vector2>();
 		startPointInAList.Add (startLocation);
 		int temp = RecuTest (startPointInAList,1);
