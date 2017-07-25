@@ -31,26 +31,14 @@ public class MonsterScript : MonoBehaviour {
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
 		masterSpawner = gameObject.GetComponentInParent<MonsterSpawnerScript> ();
-		/*
-		string t = "";
-		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 30; j++) {
-				t += "["+tilemapData[i,j]+"]";
-			}
-			t += "\n";
-		}
-		Debug.Log (t);
-		*/
 	}
     public void SetListIndex(int index) {
         this.index = index;
     }
 
-
     public void setMonsterID(int ID) {
         this.monsterID = ID;
         InitMonster();
-
     }
 
     void InitMonster() {
@@ -59,9 +47,8 @@ public class MonsterScript : MonoBehaviour {
     }
 
     public void SetMonsterData(Monster m) {
-        //mRef = new Monster(m.GetMType());
         mRef = m;
-        Debug.Log(" " + mRef.GetMType() + " ");
+        Debug.Log("Monster data set to: " + mRef.GetMType() + " ");
     }
 
     public void SetHitRange(int value) {
@@ -73,8 +60,8 @@ public class MonsterScript : MonoBehaviour {
 		if (hasDestination) {
 			if (Time.fixedTime > lastTime + movementInterval) {
 				if (canHitPlayer ()) {
-                    ps.TakeDamage(1);
-					Debug.Log ("SMACK");
+                    ps.TakeDamage(mRef.GetDamage());
+					Debug.Log ("Monster says: SMACK");
 				} else {
 					Move ();
 				}

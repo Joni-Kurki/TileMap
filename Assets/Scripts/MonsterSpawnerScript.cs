@@ -9,6 +9,7 @@ public class Monster {
     int currentHp;
     int artsID;
     int hitRange;
+    int damage;
     string mType;
 
     public Monster(string mType) {
@@ -22,18 +23,21 @@ public class Monster {
                 maxHp = 5;
                 artsID = 0;
                 hitRange = 1;
+                damage = 1;
                 //Debug.Log("Gob "+maxHp+" "+hitRange);
                 break;
             case "Devil":
                 maxHp = 8;
                 hitRange = 2;
                 artsID = 1;
+                damage = 2;
                 //Debug.Log("Dev " + maxHp + " " + hitRange);
                 break;
             case "Skeleton":
                 maxHp = 6;
                 hitRange = 1;
                 artsID = 2;
+                damage = 1;
                 //Debug.Log("Ske " + maxHp + " " + hitRange);
                 break;
         }
@@ -59,6 +63,9 @@ public class Monster {
     }
     public int GetCurrentHp() {
         return currentHp;
+    }
+    public int GetDamage() {
+        return damage;
     }
 }
 

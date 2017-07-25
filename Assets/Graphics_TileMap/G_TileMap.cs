@@ -69,6 +69,11 @@ public class G_TileMap : MonoBehaviour {
 	}
 
     void InstantiateStairs() {
+        GameObject[] stairsToDestroy = GameObject.FindGameObjectsWithTag("Stairs");
+        for (int i = 0; i < stairsToDestroy.Length; i++) {
+            DestroyImmediate(stairsToDestroy[i]);
+        }
+
         Instantiate(StairsUp, new Vector3(dTileMap.GetStairsUp().x, 0.05f, dTileMap.GetStairsUp().y), StairsUp.transform.rotation);
         Instantiate(StairsDown, new Vector3(dTileMap.GetStairsDown().x, 0.05f, dTileMap.GetStairsDown().y), StairsDown.transform.rotation);
     }
