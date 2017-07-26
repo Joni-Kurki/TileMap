@@ -80,6 +80,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
     List<Monster> mDBList;
     List<Monster> mList;
 
+    MonsterScript mS;
 	G_TileMap map;
 	public GameObject tilemapPrefab;
 
@@ -147,13 +148,21 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mList.Add(tMon);
         int tempIndex = mList.Count - 1;
         GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.03f, y), monsterPrefab.transform.rotation, transform);
-        MonsterScript mS = go.GetComponent<MonsterScript>();
+        mS = go.GetComponent<MonsterScript>();
         mS.setMonsterID(FindMonsterIDByString(mType));
         mS.SetListIndex(tempIndex);
 		mS.SetDestination (Random.Range(0, 50), Random.Range(0,50));
         Debug.Log("Instantiate monster " + tMon.GetMType());
         mS.SetHitRange(tMon.GetHitRange());
         mS.SetMonsterData(tMon);
+    }
+
+    public List<Monster> GetMonsterList() {
+        return mList;
+    }
+
+    public Vector2 GetMLocation() {
+        return mS.GetMLocation();
     }
 
     public Monster GetMonsterData(int index) {
@@ -164,7 +173,6 @@ public class MonsterSpawnerScript : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.F6)) {
 			Debug.Log (""+mList.Count);
-			Debug.Log (map.GetTileAt (0, 0) + " " + map.GetTileAt (10, 10));
 		}
 	}
 }

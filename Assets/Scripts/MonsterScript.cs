@@ -35,10 +35,16 @@ public class MonsterScript : MonoBehaviour {
     public void SetListIndex(int index) {
         this.index = index;
     }
-
+    public int GetListIndex() {
+        return index;
+    }
     public void setMonsterID(int ID) {
         this.monsterID = ID;
         InitMonster();
+    }
+
+    public Vector2 GetMLocation() {
+        return new Vector2(x, y);
     }
 
     void InitMonster() {
