@@ -128,8 +128,8 @@ public class MonsterSpawnerScript : MonoBehaviour {
 		}
         return temp;
     }
-
-    public void InstantiateMonster(int x, int y, string mType) { // instatioidaan monsteri peliin
+    // instatioidaan monsteri peliin
+    public void InstantiateMonster(int x, int y, string mType) { 
         if (mType == "Random") {
             switch(Random.Range(0,mDBList.Count)){
                 case 0:

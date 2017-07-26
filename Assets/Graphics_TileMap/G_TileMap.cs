@@ -67,13 +67,12 @@ public class G_TileMap : MonoBehaviour {
 			}
 		}
 	}
-
-    void InstantiateStairs() {
+    // kerran ekaan ja vikaan huoneeseen portaat
+    void InstantiateStairs() { 
         GameObject[] stairsToDestroy = GameObject.FindGameObjectsWithTag("Stairs");
         for (int i = 0; i < stairsToDestroy.Length; i++) {
-            DestroyImmediate(stairsToDestroy[i]);
+            DestroyImmediate(stairsToDestroy[i]); // Immiediate koska, muuten ei tuhoudu editorissa
         }
-
         Instantiate(StairsUp, new Vector3(dTileMap.GetStairsUp().x, 0.05f, dTileMap.GetStairsUp().y), StairsUp.transform.rotation);
         Instantiate(StairsDown, new Vector3(dTileMap.GetStairsDown().x, 0.05f, dTileMap.GetStairsDown().y), StairsDown.transform.rotation);
     }
@@ -110,7 +109,16 @@ public class G_TileMap : MonoBehaviour {
 	public int GetTileAt(int x, int y){
 		return dTileMap.GetTileAt (x, y);
 	}
-
+    // Tänne kaikki eventit tms jos seisoo jonkin päällä
+    public string CheckIfStandingOnSpecial(int x, int y) {
+        if (x == dTileMap.GetStairsUp().x && y == dTileMap.GetStairsUp().y) {
+            return "Stairs Up";
+        }
+        if (x == dTileMap.GetStairsDown().x && y == dTileMap.GetStairsDown().y) {
+            return "Stairs Down";
+        }
+        return "nothing";
+    }
 	public void BuildMesh(){
 		int numberOfTiles = size_x * size_y;
 		int numberOfTris = numberOfTiles * 2; // koska joka tilessa 2x tris

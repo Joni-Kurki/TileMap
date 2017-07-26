@@ -22,7 +22,6 @@ public class MonsterScript : MonoBehaviour {
 	Transform player;
     PlayerScript ps;
 
-	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
         ps = player.GetComponent<PlayerScript>();
@@ -32,6 +31,7 @@ public class MonsterScript : MonoBehaviour {
 		y = (int)transform.position.z;
 		masterSpawner = gameObject.GetComponentInParent<MonsterSpawnerScript> ();
 	}
+    // luodaan monsterille listan indeksi numeros
     public void SetListIndex(int index) {
         this.index = index;
     }
@@ -45,7 +45,7 @@ public class MonsterScript : MonoBehaviour {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = monsterArts[monsterID];
     }
-
+    // spawneri settaa monstrille datan listasta
     public void SetMonsterData(Monster m) {
         mRef = m;
         Debug.Log("Monster data set to: " + mRef.GetMType() + " ");
@@ -71,10 +71,9 @@ public class MonsterScript : MonoBehaviour {
         if (mRef.GetCurrentHp() <= 0) {
             Destroy(gameObject);
         }
-
 	}
-
-	public bool canHitPlayer(){ // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
+    // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
+	public bool canHitPlayer(){ 
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		for (int i = 0; i <= hitRange; i++) {
 			if (((int)player.position.x == (int)transform.position.x + (hitRange-i) && (int)player.position.z == (int)transform.position.z) ||
@@ -86,13 +85,13 @@ public class MonsterScript : MonoBehaviour {
 		}
 		return false;
 	}
-
+    // AI destination
 	public void SetDestination(int dx, int dy){
 		destX = dx;
 		destY = dy;
 		hasDestination = true;
 	}
-
+    // AI settiä
 	void Move(){
 		//Debug.Log (masterSpawner.GetTileAt((int)transform.position.x,(int)transform.position.z));
 		bool xLoop = true;
