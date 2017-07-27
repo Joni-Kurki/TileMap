@@ -101,6 +101,9 @@ public class G_TileMap : MonoBehaviour {
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
 		Debug.Log("MAP::Textures done!");
         InstantiateStairs();
+        // keskitetään pelaaja aloituspisteeseen
+        GameObject pRef = GameObject.FindGameObjectWithTag("Player");
+        pRef.transform.position = new Vector3((int)dTileMap.GetStairsUp().x, 0, (int)dTileMap.GetStairsUp().y);
 	}
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
 	public Vector3 GetStartingLocation(){
