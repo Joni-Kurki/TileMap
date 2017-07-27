@@ -77,6 +77,14 @@ public class PlayerScript : MonoBehaviour {
                 Debug.Log("Player y-1" + tempM.GetMType());
             }
         }
+        goList = GameObject.FindGameObjectsWithTag("Loot_Time");
+        for (int i = 0; i < goList.Length; i++) {
+            if ((int)transform.position.x == (int)goList[i].transform.position.x && (int)transform.position.z == (int)goList[i].transform.position.z) {
+                Debug.Log("Time looted!");
+                TimePrefabScript tps = goList[i].GetComponent<TimePrefabScript>();
+                time += tps.PickUp();
+            }
+        }
     }
 
     public void TakeDamage(int value){

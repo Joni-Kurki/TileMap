@@ -22,6 +22,8 @@ public class MonsterScript : MonoBehaviour {
 	Transform player;
     PlayerScript ps;
 
+    public GameObject timePrefab;
+
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
         ps = player.GetComponent<PlayerScript>();
@@ -76,6 +78,7 @@ public class MonsterScript : MonoBehaviour {
 		}
         if (mRef.GetCurrentHp() <= 0) {
             Destroy(gameObject);
+            Instantiate(timePrefab, new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), timePrefab.transform.rotation);
         }
 	}
     // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
