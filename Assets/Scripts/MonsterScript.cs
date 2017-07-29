@@ -59,6 +59,10 @@ public class MonsterScript : MonoBehaviour {
         Debug.Log("Monster data set to: " + mRef.GetMType() + " ");
     }
 
+    public float GetMonsterHpPercentage() {
+        return (mRef.GetCurrentHp() / mRef.GetMaxHp());
+    }
+
     public void SetHitRange(int value) {
         this.hitRange = value;
     }

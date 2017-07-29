@@ -5,8 +5,8 @@ using UnityEngine;
 public class Monster {
     int x = 0;
     int y = 0;
-    int maxHp;
-    int currentHp;
+    float maxHp;
+    float currentHp;
     int artsID;
     int hitRange;
     int damage;
@@ -21,7 +21,7 @@ public class Monster {
     void setMonsterStats() {
         switch (mType) {
             case "Goblin":
-                maxHp = 3;
+                maxHp = 3f;
                 artsID = 0;
                 hitRange = 1;
                 expValueOnKill = 2;
@@ -29,7 +29,7 @@ public class Monster {
                 //Debug.Log("Gob "+maxHp+" "+hitRange);
                 break;
             case "Devil":
-                maxHp = 6;
+                maxHp = 6f;
                 hitRange = 2;
                 artsID = 1;
                 expValueOnKill = 5;
@@ -37,7 +37,7 @@ public class Monster {
                 //Debug.Log("Dev " + maxHp + " " + hitRange);
                 break;
             case "Skeleton":
-                maxHp = 4;
+                maxHp = 4f;
                 hitRange = 1;
                 artsID = 2;
                 expValueOnKill = 3;
@@ -67,8 +67,11 @@ public class Monster {
         currentHp -= value;
         Debug.Log("Taking DMG!!");
     }
-    public int GetCurrentHp() {
+    public float GetCurrentHp() {
         return currentHp;
+    }
+    public float GetMaxHp() {
+        return maxHp;
     }
     public int GetDamage() {
         return damage;
