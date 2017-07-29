@@ -77,6 +77,7 @@ public class MonsterScript : MonoBehaviour {
 			}
 		}
         if (mRef.GetCurrentHp() <= 0) {
+            ps.AddToExp(mRef.GetExpValueOnKill());
             Destroy(gameObject);
             Instantiate(timePrefab, new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), timePrefab.transform.rotation);
         }

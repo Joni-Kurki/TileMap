@@ -7,19 +7,24 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour {
 
     public int time;
+    private int damage;
     bool isDead;
     Text timeText;
     Text infoText;
+    Text expText;
     private float movementInterval;
     private float lastTime;
     private bool spawnerFound;
+    private int experience;
 
     G_TileMap map;
     MonsterSpawnerScript spawner;
     MonsterScript mScript;
     // Use this for initialization
 	void Awake() {
-        isDead = false; 
+        isDead = false;
+        damage = 2;
+        experience = 0;
 	}
 
     void Start() {
@@ -27,8 +32,10 @@ public class PlayerScript : MonoBehaviour {
         lastTime = Time.fixedTime;
         timeText = GameObject.FindGameObjectWithTag("UI_Time").GetComponent<Text>();
         infoText = GameObject.FindGameObjectWithTag("UI_Info").GetComponent<Text>();
+        expText = GameObject.FindGameObjectWithTag("UI_Exp").GetComponent<Text>();
         timeText.text = "Time: " + time;
         infoText.text = "Common test";
+        expText.text = "Exp: " + experience;
         map = GameObject.FindGameObjectWithTag("GameWorld").GetComponent<G_TileMap>();
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<MonsterSpawnerScript>();
     }
@@ -40,6 +47,7 @@ public class PlayerScript : MonoBehaviour {
         }
         if (Time.fixedTime > lastTime + movementInterval) {
             timeText.text = "Time: " + time;
+            expText.text = "Exp: " + experience;
             if (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) != "nothing") {
                 infoText.text = "" + map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z);
             } else {
@@ -58,22 +66,22 @@ public class PlayerScript : MonoBehaviour {
             Monster tempM;
             if ((int)transform.position.x + 1 == mScript.GetMLocation().x && (int)transform.position.z == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
-                tempM.TakeDamage(1);
+                tempM.TakeDamage(damage);
                 Debug.Log("Player x+1" + tempM.GetMType());
             }
             if ((int)transform.position.x -1 == mScript.GetMLocation().x && (int)transform.position.z == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
-                tempM.TakeDamage(1);
+                tempM.TakeDamage(damage);
                 Debug.Log("Player x-1" + tempM.GetMType());
             }
             if ((int)transform.position.x == mScript.GetMLocation().x  && (int)transform.position.z +1 == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
-                tempM.TakeDamage(1);
+                tempM.TakeDamage(damage);
                 Debug.Log("Player y+1" + tempM.GetMType());
             }
             if ((int)transform.position.x == mScript.GetMLocation().x && (int)transform.position.z -1 == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
-                tempM.TakeDamage(1);
+                tempM.TakeDamage(damage);
                 Debug.Log("Player y-1" + tempM.GetMType());
             }
         }
@@ -94,5 +102,13 @@ public class PlayerScript : MonoBehaviour {
         } else {
             Debug.Log("Dead cannot take damage, fool!");
         }
+    }
+
+    public bool GetIsDead() {
+        return isDead;
+    }
+
+    public void AddToExp(int value) {
+        experience += value;
     }
 }

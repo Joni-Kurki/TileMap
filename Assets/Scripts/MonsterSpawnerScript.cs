@@ -11,6 +11,7 @@ public class Monster {
     int hitRange;
     int damage;
     string mType;
+    int expValueOnKill;
 
     public Monster(string mType) {
         this.mType = mType;
@@ -20,23 +21,26 @@ public class Monster {
     void setMonsterStats() {
         switch (mType) {
             case "Goblin":
-                maxHp = 5;
+                maxHp = 3;
                 artsID = 0;
                 hitRange = 1;
+                expValueOnKill = 2;
                 damage = 1;
                 //Debug.Log("Gob "+maxHp+" "+hitRange);
                 break;
             case "Devil":
-                maxHp = 8;
+                maxHp = 6;
                 hitRange = 2;
                 artsID = 1;
+                expValueOnKill = 5;
                 damage = 2;
                 //Debug.Log("Dev " + maxHp + " " + hitRange);
                 break;
             case "Skeleton":
-                maxHp = 6;
+                maxHp = 4;
                 hitRange = 1;
                 artsID = 2;
+                expValueOnKill = 3;
                 damage = 1;
                 //Debug.Log("Ske " + maxHp + " " + hitRange);
                 break;
@@ -46,7 +50,9 @@ public class Monster {
     public int GetHitRange() {
         return hitRange;
     }
-
+    public int GetExpValueOnKill() {
+        return expValueOnKill;
+    }
     public void SetLocation(int x, int y) {
         this.x = x;
         this.y = y;
