@@ -100,7 +100,6 @@ public class MonsterSpawnerScript : MonoBehaviour {
         InitMonstersTypes(mDBList);
         //Debug.Log("Monsters in db: " + mDBList.Count);
 		map = tilemapPrefab.GetComponent<G_TileMap> ();
-		//Debug.Log (map.GetTileAt (0, 0) + " " + map.GetTileAt (10, 10));
 	}
     // Luodaan monster database listaan, josta voidaan sitten hakea monstereita spawnerille. 
     // Muutetaan mType tarvittaessa indeksi numeroksi FindMonsterIDByString -metodilla, artseja varten
@@ -161,7 +160,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
         mS.setMonsterID(FindMonsterIDByString(mType));
         mS.SetListIndex(tempIndex);
 		mS.SetDestination (Random.Range(0, 50), Random.Range(0,50));
-        Debug.Log("Instantiate monster " + tMon.GetMType());
+        //Debug.Log("Instantiate monster " + tMon.GetMType());
         mS.SetHitRange(tMon.GetHitRange());
         mS.SetMonsterData(tMon);
     }

@@ -11,6 +11,7 @@ public class G_TileMap : MonoBehaviour {
 	public int size_x = 50;
 	public int size_y = 50;
 	public float tileSize = 1.0f;
+	bool firstBuild;
 
 	public Texture2D mapTileGraphics; // tähän spritet
 	public int tileResolution; // esim 16x16px tile -> 16px
@@ -20,13 +21,23 @@ public class G_TileMap : MonoBehaviour {
 	public GameObject mSpawnerPrefab;
 	MonsterSpawnerScript mSpawner;
 	Data_TileMap dTileMap;
-
+	GameManagerScript gmS;
 	int [,] tileMapDataCopy;
+
+	void Awake(){
+		firstBuild = true;
+	}
 
 	// Use this for initialization
 	void Start () {
-		BuildMesh ();
 		mSpawner = mSpawnerPrefab.GetComponent<MonsterSpawnerScript> ();
+		gmS = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManagerScript> ();
+
+		if (firstBuild) {
+			dTileMap = new Data_TileMap (size_x, size_y, gmS.GetLevel ());
+			BuildMesh ();
+		}
+		//SpawnMonstersToLevel ();
 	}
 	
 	// Update is called once per frame
@@ -62,8 +73,10 @@ public class G_TileMap : MonoBehaviour {
 				spawned++;
 			}else{
 				fails++;
-				if (fails > 30)
+				if (fails > 50) {
+					Debug.Log ("Over 50 fails, cannot spawn!");
 					break;
+				}
 			}
 		}
 	}
@@ -77,8 +90,29 @@ public class G_TileMap : MonoBehaviour {
         Instantiate(StairsDown, new Vector3(dTileMap.GetStairsDown().x, 0.05f, dTileMap.GetStairsDown().y), StairsDown.transform.rotation);
     }
 
+	// jos kentässä mosia, tuhotaan ne.
+	void ClearMonster(){ 
+		GameObject[] monsters = GameObject.FindGameObjectsWithTag ("Monster");
+		Debug.Log ("Monsters to destroy: " + monsters.Length);
+		MonsterScript Mon;
+		for(int i=0; i<monsters.Length; i++){
+			Mon = monsters[i].GetComponent<MonsterScript>();
+			//Debug.Log ("Destroyed monster! "+Mon.GetListIndex());
+			Destroy (monsters[i]);
+		}
+	}
+	void SpawnMonstersToLevel(){
+		Debug.Log ("Spawning "+gmS.GetMonsterCount()+" monsters.");
+		for (int i = 0; i < gmS.GetMonsterCount(); i++) {
+			RandomizeMonsters (1);
+		}
+	}
 	void BuildTexture(){
-		dTileMap =  new Data_TileMap (size_x, size_y);
+		if (firstBuild) {
+			firstBuild = false;
+		} else {
+			dTileMap = new Data_TileMap (size_x, size_y, gmS.GetLevel ());
+		}
 
 		int textureWidth = size_x * tileResolution;
 		int textureHeigth = size_y * tileResolution;
@@ -100,10 +134,10 @@ public class G_TileMap : MonoBehaviour {
 		MeshRenderer mesh_renderer = GetComponent<MeshRenderer> ();
 		mesh_renderer.sharedMaterials [0].mainTexture = texture;
 		Debug.Log("MAP::Textures done!");
-        InstantiateStairs();
-        // keskitetään pelaaja aloituspisteeseen
-        GameObject pRef = GameObject.FindGameObjectWithTag("Player");
-        pRef.transform.position = new Vector3((int)dTileMap.GetStairsUp().x, 0, (int)dTileMap.GetStairsUp().y);
+		InstantiateStairs();
+		// keskitetään pelaaja aloituspisteeseen
+		GameObject pRef = GameObject.FindGameObjectWithTag("Player");
+		pRef.transform.position = new Vector3((int)dTileMap.GetStairsUp().x, 0, (int)dTileMap.GetStairsUp().y);
 	}
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
 	public Vector3 GetStartingLocation(){
@@ -112,17 +146,19 @@ public class G_TileMap : MonoBehaviour {
 	public int GetTileAt(int x, int y){
 		return dTileMap.GetTileAt (x, y);
 	}
-    // Tänne kaikki eventit tms jos seisoo jonkin päällä
-    public string CheckIfStandingOnSpecial(int x, int y) {
-        if (x == dTileMap.GetStairsUp().x && y == dTileMap.GetStairsUp().y) {
-            return "Stairs Up";
-        }
-        if (x == dTileMap.GetStairsDown().x && y == dTileMap.GetStairsDown().y) {
-            return "Stairs Down";
-        }
-        return "nothing";
-    }
+	// Tänne kaikki eventit tms jos seisoo jonkin päällä
+	public string CheckIfStandingOnSpecial(int x, int y) {
+		if (x == dTileMap.GetStairsUp().x && y == dTileMap.GetStairsUp().y) {
+			return "Stairs Up";
+		}
+		if (x == dTileMap.GetStairsDown().x && y == dTileMap.GetStairsDown().y) {
+			return "Stairs Down";
+		}
+		return "nothing";
+	}
+
 	public void BuildMesh(){
+		
 		int numberOfTiles = size_x * size_y;
 		int numberOfTris = numberOfTiles * 2; // koska joka tilessa 2x tris
 
@@ -175,5 +211,7 @@ public class G_TileMap : MonoBehaviour {
 		Debug.Log ("MAP::Mesh done!");
 
 		BuildTexture ();
+		ClearMonster ();
+		SpawnMonstersToLevel ();
 	}
 }

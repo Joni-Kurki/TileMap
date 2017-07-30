@@ -70,9 +70,10 @@ public class Data_TileMap{
 	 * 2 = grass
 	 * 3 = sand
 	 */
-	public Data_TileMap(int tilemap_size_x, int tilemap_size_y){
+	public Data_TileMap(int tilemap_size_x, int tilemap_size_y, int level){
 		this.tilemap_size_x = tilemap_size_x;
 		this.tilemap_size_y = tilemap_size_y;
+		int roomCount = 5 + level;
 
 		tilemap_data = new int[tilemap_size_x, tilemap_size_y];
         for (int ite = 0; ite < 10; ite++){
@@ -84,7 +85,7 @@ public class Data_TileMap{
 
             rooms = new List<Data_Room>();
             Data_Room dr;
-            for (int i = 0; i < 8; i++){
+			for (int i = 0; i < roomCount; i++){
                 int r_size_x = Random.Range(5, 9);
                 int r_size_y = Random.Range(4, 8);
                 dr = new Data_Room(Random.Range(0, tilemap_size_x - r_size_x+1), Random.Range(0, tilemap_size_y - r_size_y+1), r_size_x, r_size_y);
