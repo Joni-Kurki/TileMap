@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour {
 		gameOverText = GameObject.FindGameObjectWithTag ("UI_GameOver").GetComponent<Text> ();
         timeText.text = "Time: " + time;
         infoText.text = "Common test";
-        expText.text = "Exp: " + experience;
+		expText.text = "Exp: " + experience + " (Level: "+level+")";
 		// Tarvittavat muut skriptit
         map = GameObject.FindGameObjectWithTag("GameWorld").GetComponent<G_TileMap>();
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<MonsterSpawnerScript>();
@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour {
         }
 		if (Time.fixedTime > lastTime + actionInterval) {
             timeText.text = "Time: " + time;
-            expText.text = "Exp: " + experience;
+			expText.text = "Exp: " + experience + " (Level: "+level+")";
             if (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) != "nothing") {
                 infoText.text = "" + map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z);
 

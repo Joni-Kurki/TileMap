@@ -37,7 +37,6 @@ public class G_TileMap : MonoBehaviour {
 			dTileMap = new Data_TileMap (size_x, size_y, gmS.GetLevel ());
 			BuildMesh ();
 		}
-		//SpawnMonstersToLevel ();
 	}
 	
 	// Update is called once per frame
@@ -49,7 +48,7 @@ public class G_TileMap : MonoBehaviour {
 
 	Color [][] ChopUpTiles(){
 		int numberOfTilesPerRow = mapTileGraphics.width / tileResolution;
-		int numberOfRowsInTexture = mapTileGraphics.height / tileResolution;
+		int numberOfRowsInTexture =  mapTileGraphics.height / tileResolution;
 
 		Color[][] tiles = new Color[numberOfTilesPerRow * numberOfRowsInTexture][];
 
@@ -58,6 +57,7 @@ public class G_TileMap : MonoBehaviour {
 				tiles [y * numberOfTilesPerRow + x] = mapTileGraphics.GetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution);
 			}
 		}
+		Debug.Log (tiles.ToString());
 		return tiles;
 	}
 
@@ -127,8 +127,8 @@ public class G_TileMap : MonoBehaviour {
 			}
 		}
 
-		texture.filterMode = FilterMode.Trilinear;
-		texture.wrapMode = TextureWrapMode.Clamp;
+		texture.filterMode = FilterMode.Bilinear;
+		texture.wrapMode = TextureWrapMode.Repeat;
 		texture.Apply ();
 
 		MeshRenderer mesh_renderer = GetComponent<MeshRenderer> ();
