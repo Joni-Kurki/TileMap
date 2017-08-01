@@ -70,7 +70,7 @@ public class PlayerScript : MonoBehaviour {
             lastTime = Time.fixedTime;
         }
 		// use key
-		if (Input.GetKeyDown (KeyCode.E) && (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) != "nothing")) {
+		if (Input.GetKeyDown (KeyCode.E) && (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) == "Stairs Down")) {
 			Debug.Log ("E");
 			gmS.NextLevel ();
 		}

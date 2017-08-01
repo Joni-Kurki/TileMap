@@ -12,6 +12,14 @@ public class Monster {
     int damage;
     string mType;
     int expValueOnKill;
+	/* Jaetaan monsterit tiereihin esim rewardeja varten jne
+	 * 0 = Goblin, Skeleton
+	 * 1 = Devil
+	 * 2 = 
+	 * 3 = 
+	 * 4 = 
+	 */
+	int monsterTier;
 
     public Monster(string mType) {
         this.mType = mType;
@@ -20,7 +28,8 @@ public class Monster {
     }
     void setMonsterStats() {
         switch (mType) {
-            case "Goblin":
+			case "Goblin":
+				monsterTier = 0;
                 maxHp = 3f;
                 artsID = 0;
                 hitRange = 1;
@@ -29,6 +38,7 @@ public class Monster {
                 //Debug.Log("Gob "+maxHp+" "+hitRange);
                 break;
             case "Devil":
+				monsterTier = 1;
                 maxHp = 6f;
                 hitRange = 2;
                 artsID = 1;
@@ -37,6 +47,7 @@ public class Monster {
                 //Debug.Log("Dev " + maxHp + " " + hitRange);
                 break;
             case "Skeleton":
+				monsterTier = 0;
                 maxHp = 4f;
                 hitRange = 1;
                 artsID = 2;
@@ -47,6 +58,9 @@ public class Monster {
         }
     }
 
+	public int GetMonsterTier(){
+		return monsterTier;
+	}
     public int GetHitRange() {
         return hitRange;
     }
@@ -155,7 +169,7 @@ public class MonsterSpawnerScript : MonoBehaviour {
         Monster tMon = new Monster(mType);
         mList.Add(tMon);
         int tempIndex = mList.Count - 1;
-        GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0.03f, y), monsterPrefab.transform.rotation, transform);
+        GameObject go = Instantiate(monsterPrefab, new Vector3(x, 0f, y), monsterPrefab.transform.rotation, transform);
         mS = go.GetComponent<MonsterScript>();
         mS.setMonsterID(FindMonsterIDByString(mType));
         mS.SetListIndex(tempIndex);

@@ -66,7 +66,12 @@ public class MonsterScript : MonoBehaviour {
     public void SetHitRange(int value) {
         this.hitRange = value;
     }
-
+	public int GetHitRange(){
+		return hitRange;
+	}
+	public Monster GetMonsterData(){
+		return mRef;
+	}
 	// Update is called once per frame
 	void Update () {
 		if (hasDestination) {
@@ -77,6 +82,14 @@ public class MonsterScript : MonoBehaviour {
 				} else {
 					Move ();
 				}
+				if (RangeToPlayer ()) {
+					transform.FindChild ("HitRangeX").gameObject.SetActive(true);
+					transform.FindChild ("HitRangeY").gameObject.SetActive(true);
+					Debug.Log ("In range");
+				} else {
+					transform.FindChild ("HitRangeX").gameObject.SetActive(false);
+					transform.FindChild ("HitRangeY").gameObject.SetActive(false);
+				}
 				lastTime = Time.fixedTime;
 			}
 		}
@@ -84,9 +97,15 @@ public class MonsterScript : MonoBehaviour {
             ps.AddToExp(mRef.GetExpValueOnKill());
             GameObject go = Instantiate(timePrefab, new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), timePrefab.transform.rotation);
 			TimePrefabScript tps = go.GetComponent<TimePrefabScript> ();
-			tps.SetTimeReward (Random.Range (0, 4));
+			tps.SetTimeReward (Random.Range (0 + mRef.GetMonsterTier(), mRef.GetMonsterTier() + 4));
 			Destroy(gameObject);
         }
+	}
+	bool RangeToPlayer(){
+		if (Vector2.Distance (new Vector2 (transform.position.x, transform.position.z), new Vector2 (player.transform.position.x, player.transform.position.z) ) < 5) {
+			return true;
+		} 
+		return false;
 	}
     // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
 	public bool canHitPlayer(){ 
