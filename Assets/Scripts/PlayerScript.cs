@@ -5,33 +5,44 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
-
-    public int time;
-    private int damage;
+	
     bool isDead;
     Text timeText;
     Text infoText;
     Text expText;
 	Text gameOverText;
-    private float movementInterval;
     private float lastTime;
     private bool spawnerFound;
-    private int experience;
-
+    
     G_TileMap map;
     MonsterSpawnerScript spawner;
     MonsterScript mScript;
 	GameManagerScript gmS;
+
+	public int [] levels;
+
+	// Visible stats
+	public int time;
+	public int damage;
+	public float actionInterval;
+	public int experience;
+	public int level;
+	public const int MAX_LEVEL = 50;
+
     // Use this for initialization
 	void Awake() {
-        isDead = false;
+		isDead = false;
+		time = 22;
         damage = 2;
         experience = 0;
+		level = 1;
+		SetExperienceLevels ();
+		SetPlayerLevel ();
 	}
 
     void Start() {
 		// pelaajan "action" viive
-        movementInterval = 0.5f;
+		actionInterval = 0.5f;
         lastTime = Time.fixedTime;
 		// UI elementit
         timeText = GameObject.FindGameObjectWithTag("UI_Time").GetComponent<Text>();
@@ -46,6 +57,24 @@ public class PlayerScript : MonoBehaviour {
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<MonsterSpawnerScript>();
 		gmS = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManagerScript> ();
     }
+	// aluestetaan expa levelit, joku kokeilu kaava vaan tässä atm.
+	void SetExperienceLevels(){
+		levels = new int[MAX_LEVEL];
+		for (int i = 0; i < MAX_LEVEL; i++) {
+			if (i == 0) {
+				levels [i] = 8;
+			} else {
+				levels [i] = 2*levels [i - 1] + (levels [i - 1] / 3);
+			}
+		}
+	}
+	// päivitellään pelaajan taso mikäli mennään aina rajan yli
+	void SetPlayerLevel(){
+		if (experience > levels [level-1]) {
+			level++;
+			damage++;
+		}
+	}
 	// Update is called once per frame
 	void Update () {
 		if (isDead) {
@@ -56,7 +85,7 @@ public class PlayerScript : MonoBehaviour {
             Debug.Log("Time's up mofo! You Dead!");
             isDead = true;
         }
-        if (Time.fixedTime > lastTime + movementInterval) {
+		if (Time.fixedTime > lastTime + actionInterval) {
             timeText.text = "Time: " + time;
             expText.text = "Exp: " + experience;
             if (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) != "nothing") {
@@ -71,7 +100,6 @@ public class PlayerScript : MonoBehaviour {
         }
 		// use key
 		if (Input.GetKeyDown (KeyCode.E) && (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) == "Stairs Down")) {
-			Debug.Log ("E");
 			gmS.NextLevel ();
 		}
 
@@ -133,5 +161,6 @@ public class PlayerScript : MonoBehaviour {
 
     public void AddToExp(int value) {
 		experience += (int)(value * gmS.GetDifficultyMultiplier());
+		SetPlayerLevel ();
     }
 }

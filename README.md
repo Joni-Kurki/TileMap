@@ -43,6 +43,6 @@
 - To Be Fixed somewher along the road:: bad AI for pathfinding: monster cannot get to waypoints.
 
 ## Controls
-- WASD movement
-- e for entering to lower floors.
+- 'w','a','s','d' movement
+- 'e' for entering to lower floors.
 - Nothing else atm!
