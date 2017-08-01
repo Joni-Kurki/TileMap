@@ -35,8 +35,14 @@
 ## Monster
 - have basic 4 way moving
 - Very basic AI to navigate random spots
-- Monsters can have different types with different arts
+- Monsters can have different types, tiers and arts
 - Have hitRange, which checks if player is in range (4 way check)
+- Monsters have hitrange indicator, which is colored by monster tier.
 - Monsters have a scalable hp bar
-- Monsters drop time loot
-- BUG: monster cannot get to waypoints, becaus of bad monster pathfinding.
+- Monsters drop time, which is health and currency. 
+- To Be Fixed somewher along the road:: bad AI for pathfinding: monster cannot get to waypoints.
+
+## Controls
+- WASD movement
+- e for entering to lower floors.
+- Nothing else atm!
