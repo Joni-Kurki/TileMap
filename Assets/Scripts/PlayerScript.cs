@@ -30,8 +30,10 @@ public class PlayerScript : MonoBehaviour {
 	}
 
     void Start() {
+		// pelaajan "action" viive
         movementInterval = 0.5f;
         lastTime = Time.fixedTime;
+		// UI elementit
         timeText = GameObject.FindGameObjectWithTag("UI_Time").GetComponent<Text>();
         infoText = GameObject.FindGameObjectWithTag("UI_Info").GetComponent<Text>();
         expText = GameObject.FindGameObjectWithTag("UI_Exp").GetComponent<Text>();
@@ -39,6 +41,7 @@ public class PlayerScript : MonoBehaviour {
         timeText.text = "Time: " + time;
         infoText.text = "Common test";
         expText.text = "Exp: " + experience;
+		// Tarvittavat muut skriptit
         map = GameObject.FindGameObjectWithTag("GameWorld").GetComponent<G_TileMap>();
         spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<MonsterSpawnerScript>();
 		gmS = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManagerScript> ();
@@ -66,6 +69,7 @@ public class PlayerScript : MonoBehaviour {
 			CheckIfSomethingOnTile ();
             lastTime = Time.fixedTime;
         }
+		// use key
 		if (Input.GetKeyDown (KeyCode.E) && (map.CheckIfStandingOnSpecial((int)transform.position.x, (int)transform.position.z) != "nothing")) {
 			Debug.Log ("E");
 			gmS.NextLevel ();

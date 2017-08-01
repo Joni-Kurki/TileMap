@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class TimePrefabScript : MonoBehaviour {
 
-    private int timeReward;
+    public int timeReward;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         timeReward = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (timeReward == 0) {
+			Destroy(gameObject);
+		}
 	}
 
     public void SetTimeReward(int timeReward) {
@@ -22,6 +24,6 @@ public class TimePrefabScript : MonoBehaviour {
 
     public int PickUp() {
         Destroy(gameObject);
-        return timeReward;
+		return timeReward;
     }
 }

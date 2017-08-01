@@ -82,8 +82,10 @@ public class MonsterScript : MonoBehaviour {
 		}
         if (mRef.GetCurrentHp() <= 0) {
             ps.AddToExp(mRef.GetExpValueOnKill());
-            Destroy(gameObject);
-            Instantiate(timePrefab, new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), timePrefab.transform.rotation);
+            GameObject go = Instantiate(timePrefab, new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), timePrefab.transform.rotation);
+			TimePrefabScript tps = go.GetComponent<TimePrefabScript> ();
+			tps.SetTimeReward (Random.Range (0, 4));
+			Destroy(gameObject);
         }
 	}
     // voiko monsteri löydä pelaajaa, 4way tarkastus. hitRange määrittää kuinka monta ruutua hirviö voi löydä
