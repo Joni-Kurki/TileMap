@@ -45,7 +45,7 @@ public class G_TileMap : MonoBehaviour {
 			RandomizeMonsters (1);
 		}
 	}
-
+	// hakee texturen mikä sitten piirretään meshiin.
 	Color [][] ChopUpTiles(){
 		int numberOfTilesPerRow = mapTileGraphics.width / tileResolution;
 		int numberOfRowsInTexture =  mapTileGraphics.height / tileResolution;
@@ -91,14 +91,22 @@ public class G_TileMap : MonoBehaviour {
     }
 
 	// jos kentässä mosia, tuhotaan ne.
-	void ClearMonster(){ 
+	void ClearMonsters(){ 
 		GameObject[] monsters = GameObject.FindGameObjectsWithTag ("Monster");
-		Debug.Log ("Monsters to destroy: " + monsters.Length);
+		//Debug.Log ("Monsters to destroy: " + monsters.Length);
 		MonsterScript Mon;
 		for(int i=0; i<monsters.Length; i++){
 			Mon = monsters[i].GetComponent<MonsterScript>();
 			//Debug.Log ("Destroyed monster! "+Mon.GetListIndex());
 			Destroy (monsters[i]);
+		}
+	}
+	void ClearLoot(){ 
+		GameObject[] loot_time = GameObject.FindGameObjectsWithTag ("Loot_Time");
+		//Debug.Log ("Monsters to destroy: " + monsters.Length);
+		MonsterScript Mon;
+		for(int i=0; i<loot_time.Length; i++){
+			Destroy (loot_time [i]);
 		}
 	}
 	void SpawnMonstersToLevel(){
@@ -122,12 +130,22 @@ public class G_TileMap : MonoBehaviour {
 
 		for (int y = 0; y < size_y; y++) {
 			for (int x = 0; x < size_x; x++) {
-				Color[] c = tiles [dTileMap.GetTileAt(x,y)];
-				texture.SetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution, c);
+				if (dTileMap.GetTileAt (x, y) == 1) { // floortile
+					int test = Random.Range (0, 2);
+					Color[] c = tiles [test];
+					//Color[] c = tiles [dTileMap.GetTileAt (x, y)];
+					texture.SetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution, c);
+				} else if (dTileMap.GetTileAt (x, y) == 2) { // seinä, tänne sitten metodilla, oikeen palikan hakeminen.
+					Color[] c = tiles [GetWallTexture (x, y)];
+					texture.SetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution, c);
+				} else { // tänne "tyhjä"
+					Color[] c = tiles [3];
+					texture.SetPixels (x * tileResolution, y * tileResolution, tileResolution, tileResolution, c);
+				}
 			}
 		}
 
-		texture.filterMode = FilterMode.Bilinear;
+		texture.filterMode = FilterMode.Point;
 		texture.wrapMode = TextureWrapMode.Repeat;
 		texture.Apply ();
 
@@ -139,6 +157,84 @@ public class G_TileMap : MonoBehaviour {
 		GameObject pRef = GameObject.FindGameObjectWithTag("Player");
 		pRef.transform.position = new Vector3((int)dTileMap.GetStairsUp().x, 0, (int)dTileMap.GetStairsUp().y);
 	}
+	int GetWallTexture(int x, int y){
+		if (x != 0 && x != size_x-1 && y != 0 && y != size_y-1) {
+			/*
+			if(dTileMap.GetTileAt (x - 1, y) != 2 &&
+			   dTileMap.GetTileAt (x - 1, y + 1) != 2 &&
+			   dTileMap.GetTileAt (x, y + 1) == 2 &&
+			   dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
+			   dTileMap.GetTileAt (x + 1,	y) != 2 &&
+			   dTileMap.GetTileAt (x + 1, y - 1) != 2 &&
+			   dTileMap.GetTileAt (x,	y - 1) == 2 &&
+			   dTileMap.GetTileAt (x - 1, y - 1) != 2 ) {
+				return 4;
+			}
+			if(dTileMap.GetTileAt  (x - 1, y) == 2 &&
+				dTileMap.GetTileAt (x - 1, y + 1) != 2 &&
+				dTileMap.GetTileAt (x, y + 1) != 2 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
+				dTileMap.GetTileAt (x + 1,	y) == 2 &&
+				dTileMap.GetTileAt (x + 1, y - 1) != 2 &&
+				dTileMap.GetTileAt (x,	y - 1) != 2 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 2) {
+				return 5;
+			}
+			if(dTileMap.GetTileAt  (x - 1, y) == 2 &&
+				dTileMap.GetTileAt (x - 1, y + 1) == 2 &&
+				dTileMap.GetTileAt (x, y + 1) != 2 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
+				dTileMap.GetTileAt (x + 1,	y) != 2 &&
+				dTileMap.GetTileAt (x + 1, y - 1) == 2 &&
+				dTileMap.GetTileAt (x,	y - 1) == 2 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 2) {
+				return 6;
+			}*/
+			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
+				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1,	y) == 1 &&
+				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
+				dTileMap.GetTileAt (x,	y - 1) != 100 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+				return 14;
+			}
+			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
+				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x, y + 1) == 1 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1,	y) != 100 &&
+				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
+				dTileMap.GetTileAt (x,	y - 1) != 100 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+				return 15;
+			}
+			if(dTileMap.GetTileAt  (x - 1, y) == 1 &&
+				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1,	y) != 100 &&
+				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
+				dTileMap.GetTileAt (x,	y - 1) != 100 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+				return 16;
+			}
+			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
+				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
+				dTileMap.GetTileAt (x + 1,	y) != 100 &&
+				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
+				dTileMap.GetTileAt (x,	y - 1) == 1 &&
+				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+				return 17;
+			}
+		}
+
+		return 2;
+	}
+
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
 	public Vector3 GetStartingLocation(){
 		return dTileMap.GetStartingRoomPosition ();
@@ -211,7 +307,8 @@ public class G_TileMap : MonoBehaviour {
 		//Debug.Log ("MAP::Mesh done!");
 
 		BuildTexture ();
-		ClearMonster ();
+		ClearMonsters ();
+		ClearLoot ();
 		SpawnMonstersToLevel ();
 	}
 }

@@ -56,7 +56,7 @@ public class MonsterScript : MonoBehaviour {
     // spawneri settaa monstrille datan listasta
     public void SetMonsterData(Monster m) {
         mRef = m;
-        Debug.Log("Monster data set to: " + mRef.GetMType() + " ");
+        //Debug.Log("Monster data set to: " + mRef.GetMType() + " ");
     }
 
     public float GetMonsterHpPercentage() {
@@ -78,7 +78,7 @@ public class MonsterScript : MonoBehaviour {
 			if (Time.fixedTime > lastTime + movementInterval) {
 				if (canHitPlayer ()) {
                     ps.TakeDamage(mRef.GetDamage());
-					Debug.Log ("Monster says: SMACK");
+					//Debug.Log ("Monster says: SMACK");
 				} else {
 					Move ();
 				}
@@ -170,6 +170,4 @@ public class MonsterScript : MonoBehaviour {
 		}
 		//Debug.DrawLine (transform.position + new Vector3(.5f, 0, .5f), new Vector3 (destX + .5f, 0.01f, destY+ .5f), Color.red, .5f);
 	}
-    
-
 }
