@@ -159,80 +159,149 @@ public class G_TileMap : MonoBehaviour {
 	}
 	int GetWallTexture(int x, int y){
 		if (x != 0 && x != size_x-1 && y != 0 && y != size_y-1) {
-			/*
-			if(dTileMap.GetTileAt (x - 1, y) != 2 &&
-			   dTileMap.GetTileAt (x - 1, y + 1) != 2 &&
-			   dTileMap.GetTileAt (x, y + 1) == 2 &&
-			   dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
-			   dTileMap.GetTileAt (x + 1,	y) != 2 &&
-			   dTileMap.GetTileAt (x + 1, y - 1) != 2 &&
-			   dTileMap.GetTileAt (x,	y - 1) == 2 &&
-			   dTileMap.GetTileAt (x - 1, y - 1) != 2 ) {
-				return 4;
+			// 4 seinää ---> 
+			if( (dTileMap.GetTileAt (x - 1, y) == 1) 		&&
+				(dTileMap.GetTileAt (x - 1, y + 1) == 1) 	&&
+				(dTileMap.GetTileAt (x, y + 1) == 1) 		&&
+				(dTileMap.GetTileAt (x + 1, y + 1) == 1) 	&&
+				(dTileMap.GetTileAt (x + 1,	y) == 1) 		&&
+				(dTileMap.GetTileAt (x + 1, y - 1) == 1) 	&&
+				(dTileMap.GetTileAt (x,	y - 1) == 1) 		&&
+				(dTileMap.GetTileAt (x - 1, y - 1) == 1) 	) {
+				return 18;
 			}
-			if(dTileMap.GetTileAt  (x - 1, y) == 2 &&
-				dTileMap.GetTileAt (x - 1, y + 1) != 2 &&
-				dTileMap.GetTileAt (x, y + 1) != 2 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
-				dTileMap.GetTileAt (x + 1,	y) == 2 &&
-				dTileMap.GetTileAt (x + 1, y - 1) != 2 &&
-				dTileMap.GetTileAt (x,	y - 1) != 2 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 2) {
-				return 5;
-			}
-			if(dTileMap.GetTileAt  (x - 1, y) == 2 &&
-				dTileMap.GetTileAt (x - 1, y + 1) == 2 &&
-				dTileMap.GetTileAt (x, y + 1) != 2 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 2 &&
-				dTileMap.GetTileAt (x + 1,	y) != 2 &&
-				dTileMap.GetTileAt (x + 1, y - 1) == 2 &&
-				dTileMap.GetTileAt (x,	y - 1) == 2 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 2) {
+			// 3 seinää --->
+			else if( ((dTileMap.GetTileAt (x - 1, y) == 1) 		|| (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 2) 		|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 10;
+			}else if( ((dTileMap.GetTileAt (x - 1, y) == 1) 		|| (dTileMap.GetTileAt (x - 1, y) == 2) || (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 11;
+			}else if( ((dTileMap.GetTileAt (x - 1, y) == 1) 		|| (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 12;
+			}else if( ((dTileMap.GetTileAt (x - 1, y) == 1)	|| (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt(x + 1, y + 1) == 2) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 2)	|| (dTileMap.GetTileAt (x + 1,	y) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 13;
+			}// 2 seinää --->
+			else if( ((dTileMap.GetTileAt (x - 1, y) == 1) 	|| (dTileMap.GetTileAt (x - 1, y) == 2)		|| (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				(dTileMap.GetTileAt (x, y + 1) == 1) 		&&
+				(dTileMap.GetTileAt (x + 1, y + 1) == 1) 	&&
+				(dTileMap.GetTileAt (x + 1,	y) == 1) 		&&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
 				return 6;
-			}*/
-			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
-				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1,	y) == 1 &&
-				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
-				dTileMap.GetTileAt (x,	y - 1) != 100 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+			}else if( ((dTileMap.GetTileAt (x - 1, y) == 1) 	|| (dTileMap.GetTileAt (x - 1, y) == 2)	|| (dTileMap.GetTileAt (x - 1, y) == 3))  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 2) 	|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				(dTileMap.GetTileAt (x + 1,	y) == 1) 		&&
+				(dTileMap.GetTileAt (x + 1, y - 1) == 1) 	&&
+				(dTileMap.GetTileAt (x,	y - 1) == 1) 		&&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 7;
+			}else if( (dTileMap.GetTileAt (x - 1, y) == 1)	&&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 2) 	|| (dTileMap.GetTileAt (x, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3))	&&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3) )&&
+				(dTileMap.GetTileAt (x,	y - 1) == 1) 		&&
+				(dTileMap.GetTileAt (x - 1, y - 1) == 1) 	) {
+				return 8;
+			}else if( (dTileMap.GetTileAt (x - 1, y) == 1)  &&
+				(dTileMap.GetTileAt (x - 1, y + 1) == 1)	&&
+				(dTileMap.GetTileAt (x, y + 1) == 1)		&&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3))&&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2)  	|| (dTileMap.GetTileAt (x,	y - 1) == 3))&&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 9;
+			}else if( (dTileMap.GetTileAt (x - 1, y) == 1)  &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1)		|| (dTileMap.GetTileAt (x, y + 1) == 2) || (dTileMap.GetTileAt (x, y + 1) == 3))&&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				 (dTileMap.GetTileAt (x + 1,	y) == 1) 	&&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2)  	|| (dTileMap.GetTileAt (x,	y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 4;
+			}else if(((dTileMap.GetTileAt (x - 1, y) == 1)  || (dTileMap.GetTileAt (x - 1, y) == 2) || (dTileMap.GetTileAt (x - 1, y) == 3))&&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				 (dTileMap.GetTileAt (x, y + 1) == 1)		&&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1) 	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3)) &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				 (dTileMap.GetTileAt (x,	y - 1) == 1) 	&&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
+				return 5;
+			}// 1 seinä --->
+			else if(((dTileMap.GetTileAt (x - 1, y) == 1)  	|| (dTileMap.GetTileAt (x - 1, y) == 2) 	|| (dTileMap.GetTileAt (x - 1, y) == 3))	 &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1)		|| (dTileMap.GetTileAt (x, y + 1) == 2)		|| (dTileMap.GetTileAt (x, y + 1) == 3))	 &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				 (dTileMap.GetTileAt (x + 1,	y) == 1)	&&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3))	 &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
 				return 14;
-			}
-			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
-				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x, y + 1) == 1 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1,	y) != 100 &&
-				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
-				dTileMap.GetTileAt (x,	y - 1) != 100 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+			}else if(((dTileMap.GetTileAt (x - 1, y) == 1)  	|| (dTileMap.GetTileAt (x - 1, y) == 2) 	|| (dTileMap.GetTileAt (x - 1, y) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				(dTileMap.GetTileAt (x, y + 1) == 1) 		&&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1)	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3))	 &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3))	 &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
 				return 15;
-			}
-			if(dTileMap.GetTileAt  (x - 1, y) == 1 &&
-				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1,	y) != 100 &&
-				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
-				dTileMap.GetTileAt (x,	y - 1) != 100 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+			}else if((dTileMap.GetTileAt (x - 1, y) == 1)	&&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 2) 	|| (dTileMap.GetTileAt (x, y + 1) == 3)) 	 &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1)	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3))	 &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				((dTileMap.GetTileAt (x,	y - 1) == 1) 	|| (dTileMap.GetTileAt (x,	y - 1) == 2) 	|| (dTileMap.GetTileAt (x,	y - 1) == 3))	 &&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
 				return 16;
-			}
-			if(dTileMap.GetTileAt  (x - 1, y) != 100 &&
-				dTileMap.GetTileAt (x - 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1, y + 1) != 100 &&
-				dTileMap.GetTileAt (x + 1,	y) != 100 &&
-				dTileMap.GetTileAt (x + 1, y - 1) != 100 &&
-				dTileMap.GetTileAt (x,	y - 1) == 1 &&
-				dTileMap.GetTileAt (x - 1, y - 1) != 100) {
+			}else if(((dTileMap.GetTileAt (x - 1, y) == 1)  	|| (dTileMap.GetTileAt (x - 1, y) == 2) 	|| (dTileMap.GetTileAt (x - 1, y) == 3)) &&
+				((dTileMap.GetTileAt (x - 1, y + 1) == 1)	|| (dTileMap.GetTileAt (x - 1, y + 1) == 2) || (dTileMap.GetTileAt (x - 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x, y + 1) == 1) 		|| (dTileMap.GetTileAt (x, y + 1) == 2) 	|| (dTileMap.GetTileAt (x, y + 1) == 3)) 	 &&
+				((dTileMap.GetTileAt (x + 1, y + 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y + 1) == 2) || (dTileMap.GetTileAt (x + 1, y + 1) == 3)) &&
+				((dTileMap.GetTileAt (x + 1,	y) == 1)	|| (dTileMap.GetTileAt (x + 1,	y) == 2) 	|| (dTileMap.GetTileAt (x + 1,	y) == 3))	 &&
+				((dTileMap.GetTileAt (x + 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x + 1, y - 1) == 2) || (dTileMap.GetTileAt (x + 1, y - 1) == 3)) &&
+				(dTileMap.GetTileAt (x,	y - 1) == 1)		&&
+				((dTileMap.GetTileAt (x - 1, y - 1) == 1) 	|| (dTileMap.GetTileAt (x - 1, y - 1) == 2) || (dTileMap.GetTileAt (x - 1, y - 1) == 3))) {
 				return 17;
 			}
 		}
-
-		return 2;
+		return 3;
 	}
 
 	// Data_TileMap.cs accessorit, nää pitäs saaha jonnekkin muualle jossain vaiheessa. tän luokan pitäs hoitaa vaan graffat
