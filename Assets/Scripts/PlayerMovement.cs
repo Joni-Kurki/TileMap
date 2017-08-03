@@ -21,28 +21,28 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.W) && !pScript.GetIsDead()) {
+		if (Input.GetKey (KeyCode.W) && !pScript.GetIsDead() && !pScript.GetIsMovementBlocked(1)) {
             if(Time.fixedTime > lastTime + movInterval){
                 lastTime = Time.fixedTime;
 			    if(G_tilemap.GetTileAt((int)transform.position.x, (int)transform.position.z + 1) == 1){
 				    transform.position = new Vector3 ((int)transform.position.x, (int)transform.position.y, (int)transform.position.z + moveDistance);
 			    }
             }
-        } else if (Input.GetKey(KeyCode.S) && !pScript.GetIsDead()) {
+		} else if (Input.GetKey(KeyCode.S) && !pScript.GetIsDead() && !pScript.GetIsMovementBlocked(3)) {
             if (Time.fixedTime > lastTime + movInterval) {
                 lastTime = Time.fixedTime;
                 if (G_tilemap.GetTileAt((int)transform.position.x, (int)transform.position.z - 1) == 1) {
                     transform.position = new Vector3((int)transform.position.x, (int)transform.position.y, (int)transform.position.z - moveDistance);
                 }
             }
-        } else if (Input.GetKey(KeyCode.A) && !pScript.GetIsDead()) {
+		} else if (Input.GetKey(KeyCode.A) && !pScript.GetIsDead() && !pScript.GetIsMovementBlocked(0)) {
             if (Time.fixedTime > lastTime + movInterval) {
                 lastTime = Time.fixedTime;
                 if (G_tilemap.GetTileAt((int)transform.position.x - 1, (int)transform.position.z) == 1) {
                     transform.position = new Vector3((int)transform.position.x - moveDistance, (int)transform.position.y, (int)transform.position.z);
                 }
             }
-        } else if (Input.GetKey(KeyCode.D) && !pScript.GetIsDead()) {
+		} else if (Input.GetKey(KeyCode.D) && !pScript.GetIsDead() && !pScript.GetIsMovementBlocked(2)) {
             if (Time.fixedTime > lastTime + movInterval) {
                 lastTime = Time.fixedTime;
                 if (G_tilemap.GetTileAt((int)transform.position.x + 1, (int)transform.position.z) == 1) {

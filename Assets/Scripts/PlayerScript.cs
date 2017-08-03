@@ -20,6 +20,8 @@ public class PlayerScript : MonoBehaviour {
 	GameManagerScript gmS;
 
 	public int [] levels;
+	// W , N , E , S
+	private bool[] blockMovement;
 
 	// Visible stats
 	public int time;
@@ -38,6 +40,10 @@ public class PlayerScript : MonoBehaviour {
 		level = 1;
 		SetExperienceLevels ();
 		SetPlayerLevel ();
+		blockMovement = new bool[4];
+		for (int i = 0; i < blockMovement.Length; i++) {
+			blockMovement [i] = false;
+		}
 	}
 
     void Start() {
@@ -105,7 +111,15 @@ public class PlayerScript : MonoBehaviour {
 
 	}
 
+	public bool GetIsMovementBlocked(int way){
+		return blockMovement [way];
+	}
+
     void CheckIfMonstersNearby() {
+		blockMovement [0] = false;
+		blockMovement [1] = false;
+		blockMovement [2] = false;
+		blockMovement [3] = false;
         GameObject [] goList = GameObject.FindGameObjectsWithTag("Monster");
         for (int i = 0; i < goList.Length; i++) {
             mScript = goList[i].GetComponent<MonsterScript>();
@@ -114,21 +128,25 @@ public class PlayerScript : MonoBehaviour {
             if ((int)transform.position.x + 1 == mScript.GetMLocation().x && (int)transform.position.z == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
                 tempM.TakeDamage(damage);
+				blockMovement [2] = true;
                 //Debug.Log("Player x+1" + tempM.GetMType());
             }
             if ((int)transform.position.x -1 == mScript.GetMLocation().x && (int)transform.position.z == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
                 tempM.TakeDamage(damage);
+				blockMovement [0] = true;
                 //Debug.Log("Player x-1" + tempM.GetMType());
             }
             if ((int)transform.position.x == mScript.GetMLocation().x  && (int)transform.position.z +1 == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
                 tempM.TakeDamage(damage);
+				blockMovement [1] = true;
                 //Debug.Log("Player y+1" + tempM.GetMType());
             }
             if ((int)transform.position.x == mScript.GetMLocation().x && (int)transform.position.z -1 == mScript.GetMLocation().y) {
                 tempM = spawner.GetMonsterData(tempIndex);
                 tempM.TakeDamage(damage);
+				blockMovement [3] = true;
                 //Debug.Log("Player y-1" + tempM.GetMType());
             }
         }

@@ -102,6 +102,7 @@ public class Data_TileMap{
                     MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
                 }
             }
+			//Test ();
             MakeWalls();
             //Debug.Log("Floortiles: "+GetNumberOfFloorTiles ());
             //Debug.Log("Found tiles connected: "+GetNumberOfConnectedFloorTiles ());
@@ -114,6 +115,7 @@ public class Data_TileMap{
                 //Debug.Log("Floortilet failaa, > uudestaan!");
             }
             MakeStairs();
+
         }
 	}
     // täytellään takaisin floortilellä, kun saatu selville kenttä, jossa kaikki huoneet yhdistyy.
@@ -127,6 +129,41 @@ public class Data_TileMap{
             }
         }
     }
+	// testi funkkari seiniä varten
+	void Test(){ 
+		tilemap_data [1, 1] = 1;
+		tilemap_data [2, 1] = 1;
+		tilemap_data [1, 2] = 1;
+
+		tilemap_data [1, 24] = 1;
+		tilemap_data [1, 25] = 1;
+		tilemap_data [1, 26] = 1;
+
+		tilemap_data [1, tilemap_size_y-2] = 1;
+		tilemap_data [1, tilemap_size_y-3] = 1;
+		tilemap_data [2, tilemap_size_y-2] = 1;
+
+		tilemap_data [24, tilemap_size_y - 2] = 1;
+		tilemap_data [25, tilemap_size_y - 2] = 1;
+		tilemap_data [26, tilemap_size_y - 2] = 1;
+
+		tilemap_data [47, tilemap_size_y - 2] = 1;
+		tilemap_data [48, tilemap_size_y - 2] = 1;
+		tilemap_data [48, tilemap_size_y - 3] = 1;
+
+		tilemap_data [tilemap_size_x - 2, 24] = 1;
+		tilemap_data [tilemap_size_x - 2, 25] = 1;
+		tilemap_data [tilemap_size_x - 2, 26] = 1;
+
+		tilemap_data [tilemap_size_x - 2, 1] = 1;
+		tilemap_data [tilemap_size_x - 2, 2] = 1;
+		tilemap_data [tilemap_size_x - 3, 1] = 1;
+
+		tilemap_data [24, 1] = 1;
+		tilemap_data [25, 1] = 1;
+		tilemap_data [26, 1] = 1;
+
+	}
 
     void MakeStairs() {
         stairs = new List<Vector2>();
